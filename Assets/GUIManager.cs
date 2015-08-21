@@ -57,6 +57,9 @@ public class GUIManager : MonoBehaviour {
 
 	}
 
+	public void SetThoughtText (string text, float timer =5f) {
+
+	}
 
 	public void SetSubtitleText (string text, float timer = 5f) {
 		subtitleTimer = timer;
