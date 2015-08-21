@@ -1,0 +1,267 @@
+fileFormatVersion: 2
+guid: db974191f7254354b9a227a80e04448c
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: UI Numbers_0
+    21300002: UI Numbers_1
+    21300004: UI Numbers_2
+    21300006: UI Numbers_3
+    21300008: UI Numbers_4
+    21300010: UI Numbers_5
+    21300012: UI Numbers_6
+    21300014: UI Numbers_7
+    21300016: UI Numbers_8
+    21300018: UI Numbers_9
+    21300020: UI_Numbers_Slash
+    21300022: UI_BG
+    21300024: UI Numbers_1st
+    21300026: UI Numbers_2nd
+    21300028: UI Numbers_3rd
+    21300030: UI Numbers_4th
+    21300032: UI Numbers_5th
+    21300034: UI Numbers_6th
+    21300036: UI Numbers_7th
+    21300038: UI Numbers_8th
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: 2
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: UI Numbers_0
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 846
+        width: 99
+        height: 163
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_1
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 846
+        width: 212
+        height: 162
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_2
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 846
+        width: 208
+        height: 162
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_3
+      rect:
+        serializedVersion: 2
+        x: 1089
+        y: 846
+        width: 200
+        height: 163
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_4
+      rect:
+        serializedVersion: 2
+        x: 1388
+        y: 846
+        width: 212
+        height: 163
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_5
+      rect:
+        serializedVersion: 2
+        x: 1699
+        y: 846
+        width: 211
+        height: 162
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_6
+      rect:
+        serializedVersion: 2
+        x: 2013
+        y: 846
+        width: 200
+        height: 163
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_7
+      rect:
+        serializedVersion: 2
+        x: 2293
+        y: 846
+        width: 212
+        height: 162
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_8
+      rect:
+        serializedVersion: 2
+        x: 2604
+        y: 846
+        width: 208
+        height: 162
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_9
+      rect:
+        serializedVersion: 2
+        x: 2919
+        y: 846
+        width: 211
+        height: 163
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI_Numbers_Slash
+      rect:
+        serializedVersion: 2
+        x: 3319
+        y: 838
+        width: 227
+        height: 186
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI_BG
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 1289
+        width: 219
+        height: 219
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_1st
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 256
+        width: 424
+        height: 267
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_2nd
+      rect:
+        serializedVersion: 2
+        x: 759
+        y: 256
+        width: 407
+        height: 267
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_3rd
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 260
+        width: 429
+        height: 259
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_4th
+      rect:
+        serializedVersion: 2
+        x: 1622
+        y: 260
+        width: 391
+        height: 258
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_5th
+      rect:
+        serializedVersion: 2
+        x: 2041
+        y: 256
+        width: 428
+        height: 267
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_6th
+      rect:
+        serializedVersion: 2
+        x: 2466
+        y: 256
+        width: 438
+        height: 267
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_7th
+      rect:
+        serializedVersion: 2
+        x: 2911
+        y: 259
+        width: 386
+        height: 264
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: UI Numbers_8th
+      rect:
+        serializedVersion: 2
+        x: 3337
+        y: 256
+        width: 395
+        height: 267
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 

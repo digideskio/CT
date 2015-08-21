@@ -1,0 +1,391 @@
+fileFormatVersion: 2
+guid: f1e8d9e213e711c468a898f350f4d642
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Allrepulsor_GRP
+    100004: back_l_repulsor
+    100006: back_r_repulsor
+    100008: back_repulsor_GRP
+    100010: Car_Locator
+    100012: front_l_repulsor
+    100014: front_r_repulsor
+    100016: front_repulsor_GRP
+    100018: Main_Anim
+    100020: MainCar_Body
+    400000: //RootNode
+    400002: Allrepulsor_GRP
+    400004: back_l_repulsor
+    400006: back_r_repulsor
+    400008: back_repulsor_GRP
+    400010: Car_Locator
+    400012: front_l_repulsor
+    400014: front_r_repulsor
+    400016: front_repulsor_GRP
+    400018: Main_Anim
+    400020: MainCar_Body
+    2300000: back_l_repulsor
+    2300002: back_r_repulsor
+    2300004: front_l_repulsor
+    2300006: front_r_repulsor
+    2300008: MainCar_Body
+    3300000: back_l_repulsor
+    3300002: back_r_repulsor
+    3300004: front_l_repulsor
+    3300006: front_r_repulsor
+    3300008: MainCar_Body
+    4300000: MainCar_Body
+    4300002: back_r_repulsor
+    4300004: back_l_repulsor
+    4300006: front_r_repulsor
+    4300008: front_l_repulsor
+    7400000: AI_Sitting
+    7400002: AI_takeOff
+    7400004: AI_Idle
+    7400006: AI_BankRight
+    7400008: AI_BankLeft
+    7400010: AI_ggFast
+    9500000: //RootNode
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: AI_Sitting
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 1.10000002
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Car_Locator
+        weight: 1
+      - path: Car_Locator/Main_Anim
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP/back_l_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP/back_r_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP/front_l_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP/front_r_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/MainCar_Body
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: AI_takeOff
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Car_Locator
+        weight: 1
+      - path: Car_Locator/Main_Anim
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP/back_l_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP/back_r_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP/front_l_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP/front_r_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/MainCar_Body
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: AI_Idle
+      takeName: Take 001
+      firstFrame: 60
+      lastFrame: 199
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Car_Locator
+        weight: 1
+      - path: Car_Locator/Main_Anim
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP/back_l_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP/back_r_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP/front_l_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP/front_r_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/MainCar_Body
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: AI_BankRight
+      takeName: Take 001
+      firstFrame: 202
+      lastFrame: 329
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Car_Locator
+        weight: 1
+      - path: Car_Locator/Main_Anim
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP/back_l_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP/back_r_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP/front_l_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP/front_r_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/MainCar_Body
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: AI_BankLeft
+      takeName: Take 001
+      firstFrame: 343
+      lastFrame: 482
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Car_Locator
+        weight: 1
+      - path: Car_Locator/Main_Anim
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP/back_l_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP/back_r_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP/front_l_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP/front_r_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/MainCar_Body
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: AI_ggFast
+      takeName: Take 001
+      firstFrame: 484
+      lastFrame: 581
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Car_Locator
+        weight: 1
+      - path: Car_Locator/Main_Anim
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP/back_l_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/back_repulsor_GRP/back_r_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP/front_l_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/Allrepulsor_GRP/front_repulsor_GRP/front_r_repulsor
+        weight: 1
+      - path: Car_Locator/Main_Anim/MainCar_Body
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: Car_Locator
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 

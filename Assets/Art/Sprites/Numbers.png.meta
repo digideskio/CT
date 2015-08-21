@@ -1,0 +1,168 @@
+fileFormatVersion: 2
+guid: 13f219762b8d744518a01f2bb2fe9fa0
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Numbers_0
+    21300002: Numbers_1
+    21300004: Numbers_2
+    21300006: Numbers_3
+    21300008: Numbers_4
+    21300010: Numbers_5
+    21300012: Numbers_6
+    21300014: Numbers_7
+    21300016: Numbers_8
+    21300018: Numbers_9
+    21300020: Numbers_split
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Numbers_0
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 1158
+        width: 61
+        height: 98
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Numbers_1
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 1158
+        width: 127
+        height: 97
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Numbers_2
+      rect:
+        serializedVersion: 2
+        x: 751
+        y: 1158
+        width: 127
+        height: 97
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Numbers_3
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 795
+        width: 120
+        height: 97
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Numbers_4
+      rect:
+        serializedVersion: 2
+        x: 427
+        y: 795
+        width: 127
+        height: 97
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Numbers_5
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 795
+        width: 125
+        height: 97
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Numbers_6
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 403
+        width: 120
+        height: 97
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Numbers_7
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 403
+        width: 126
+        height: 97
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Numbers_8
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 403
+        width: 124
+        height: 96
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Numbers_9
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 114
+        width: 126
+        height: 96
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Numbers_split
+      rect:
+        serializedVersion: 2
+        x: 427
+        y: 111
+        width: 132
+        height: 96
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 

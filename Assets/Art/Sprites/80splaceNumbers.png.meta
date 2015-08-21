@@ -1,0 +1,135 @@
+fileFormatVersion: 2
+guid: 0f4b9366dc3424542bb9b06ee6ade7b6
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: 80splaceNumbers_0
+    21300002: 80splaceNumbers_1
+    21300004: 80splaceNumbers_2
+    21300006: 80splaceNumbers_3
+    21300008: 80splaceNumbers_4
+    21300010: 80splaceNumbers_5
+    21300012: 80splaceNumbers_6
+    21300014: 80splaceNumbers_7
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: 80splaceNumbers_0
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 758
+        width: 299
+        height: 250
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 80splaceNumbers_1
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 832
+        width: 257
+        height: 143
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 80splaceNumbers_2
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 832
+        width: 259
+        height: 146
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 80splaceNumbers_3
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 494
+        width: 245
+        height: 146
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 80splaceNumbers_4
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 491
+        width: 247
+        height: 140
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 80splaceNumbers_5
+      rect:
+        serializedVersion: 2
+        x: 727
+        y: 494
+        width: 240
+        height: 146
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 80splaceNumbers_6
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 102
+        width: 247
+        height: 158
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 80splaceNumbers_7
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 59
+        width: 240
+        height: 261
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
