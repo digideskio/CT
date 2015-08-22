@@ -4,6 +4,8 @@ using System.Collections;
 
 public class MetricFader : MonoBehaviour {
 
+	float fadeTime;
+	bool fadeIn;
 	// Use this for initialization
 	void Start () {
 	
