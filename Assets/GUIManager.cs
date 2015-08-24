@@ -12,8 +12,21 @@ public class GUIManager : MonoBehaviour {
 	public Text thoughtText;
 	public Text gameover;
 	public Text timeDisplay;
+	public static GUIManager s_instance;
 
+	bool thoughtTimerSwitch = false;
+	bool dialogueTimerSwitch = false;
+	float thoughtDuration, thoughtTimer;
+	float dialogueDuration, dialogueTimer;
 
+	void Awake() {
+		if (s_instance == null) {
+			s_instance = this;
+		}
+		else {
+			Destroy(gameObject);
+		}
+	}
 	
 	float subtitleTimer = 0, subtitleTimerStart;
 	// Use this for initialization
@@ -55,10 +68,12 @@ public class GUIManager : MonoBehaviour {
 			}
 		}
 
+
 	}
 
-	public void SetThoughtText (string text, float timer =5f) {
-
+	public void SetThoughtText (string text, float timer = 5f) {
+		thoughtText.text = text;
+		thoughtText.enabled = true;
 	}
 
 	public void SetSubtitleText (string text, float timer = 5f) {
