@@ -232,6 +232,9 @@ public class AIHoverCar : MonoBehaviour {
 			break;
 		case AIState.Idle :
 			break;
+		case AIState.Face :
+			FaceTarget(PlayerCar.s_instance.transform.position);
+			break;
 		case AIState.Chase :
 			MoveTowardTarget(PlayerCar.s_instance.transform.position);
 			FaceTarget(PlayerCar.s_instance.transform.position);
