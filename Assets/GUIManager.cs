@@ -68,12 +68,25 @@ public class GUIManager : MonoBehaviour {
 			}
 		}
 
+		if (thoughtTimer > 0) {
+			thoughtText.enabled = true;
+			thoughtTimer -= Time.deltaTime;
+		} else if (thoughtTimer <= 0) {
+			thoughtText.enabled = false;
 
+		}
+
+		if (subtitleTimer > 0) {
+			subtitleText.enabled = true;
+			subtitleTimer -= Time.deltaTime;
+		} else if (thoughtTimer <= 0) {
+			subtitleText.enabled = false;
+			
+		}
 	}
 
 	public void SetThoughtText (string text, float timer = 5f) {
 		thoughtText.text = text;
-		thoughtText.enabled = true;
 	}
 
 	public void SetSubtitleText (string text, float timer = 5f) {
