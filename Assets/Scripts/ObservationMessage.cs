@@ -15,9 +15,12 @@ public class ObservationMessage : MonoBehaviour {
 	
 	}
 
-	void OnTriggerEnter () {
-		if (hasMessagePlayed) {
-			GUIManager.s_instance.SetThoughtText(thisMessage);
+	void OnTriggerEnter (Collider other) {
+		if (other.tag == "Player") {
+			if (!hasMessagePlayed) {
+				GUIManager.s_instance.SetThoughtText (thisMessage);
+				hasMessagePlayed = true;
+			}
 		}
 	}
 }

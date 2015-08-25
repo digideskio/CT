@@ -59,7 +59,7 @@ public class PlayerCar : CarMetrics
 	float staminaLossRate = .001f;
 
 	public enum MovementState {Drive, Engage, Submit, OutOfGas};
-	MovementState currMovementState = MovementState.Drive;
+	public MovementState currMovementState = MovementState.Drive;
 	public bool isCharged, isThrusting;
 
 	void Awake() {

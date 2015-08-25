@@ -217,16 +217,15 @@ public class AIHoverCar : MonoBehaviour {
 
 	public enum AIState {Idle, Face, Submission, Flee, Wander, Suicide, Follow, Court, Chase, Disabled, Report, Explore, Survive, Hunt}; 
 	//on first fuck cars Consent, second Flight, third Surrender
-	public enum SubmissionMode {Consent, Flight, Surrender};
+	public enum CarType {Thief, Mechanic, Civ};
+	public CarType thisCarType;
 	public AIState thisAIState = AIState.Idle;
-	public SubmissionMode thisSubmissionMode = SubmissionMode.Consent;
 	bool onFuckStartSwitch, onFuckEndSwitch, isReceivingInteract;
 	void Update()
 	{
 		switch (thisAIState) {
 		case AIState.Disabled :
 			if (isReceivingInteract) {
-				print ("BULLDOZING");
 				ForceTowardTarget(PlayerCar.s_instance.bulldozeChildTransform.position);
 				FaceTarget(PlayerCar.s_instance.bulldozeChildTransform.GetChild (0).position);
 			}
@@ -249,12 +248,6 @@ public class AIHoverCar : MonoBehaviour {
 			FaceAwayFromTarget(PlayerCar.s_instance.transform.position);
 			BackUpIntoTarget(PlayerCar.s_instance.transform.position);
 			if (onFuckEndSwitch) {
-				if (thisSubmissionMode == SubmissionMode.Consent) {
-					thisSubmissionMode = SubmissionMode.Flight;
-				}
-				else if (thisSubmissionMode == SubmissionMode.Flight) {
-					thisSubmissionMode = SubmissionMode.Surrender;
-				}
 				thisAIState = AIState.Wander;
 				onFuckEndSwitch = false;
 
@@ -271,14 +264,26 @@ public class AIHoverCar : MonoBehaviour {
 	//need to make a comparison for physique here
 	void OnTriggerEnter (Collider other) {
 		if (other.gameObject.tag == "Player") {
-			print ("IS DISABLED");
-			thisAIState = AIState.Disabled;
+			if (thisCarType == CarType.Thief) {
+				thisAIState = AIState.Chase;
+			}
+			else if (thisCarType == CarType.Mechanic) {
+				thisAIState = AIState.Face;
+
+			}
+
+			else {thisAIState = AIState.Disabled;}
 		}
 	}
 
 	void OnTriggerExit (Collider other) {
 		if (other.gameObject.tag == "Player") {
-			thisAIState = AIState.Idle;
+			if (thisCarType == CarType.Mechanic) {
+				thisAIState = AIState.Idle;
+			}
+			else if (thisCarType == CarType.Thief) {
+				thisAIState = AIState.Idle;
+			}
 		}
 	}
 

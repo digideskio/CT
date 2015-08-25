@@ -79,19 +79,23 @@ public class GUIManager : MonoBehaviour {
 		if (subtitleTimer > 0) {
 			subtitleText.enabled = true;
 			subtitleTimer -= Time.deltaTime;
-		} else if (thoughtTimer <= 0) {
+		} else if (subtitleTimer <= 0) {
 			subtitleText.enabled = false;
 			
+		}
+
+		if (PlayerCar.s_instance.currMovementState == PlayerCar.MovementState.OutOfGas) {
+			gameover.gameObject.SetActive(true);
 		}
 	}
 
 	public void SetThoughtText (string text, float timer = 5f) {
+		thoughtTimer = timer;
 		thoughtText.text = text;
 	}
 
 	public void SetSubtitleText (string text, float timer = 5f) {
 		subtitleTimer = timer;
 		subtitleText.text = text;
-		subtitleTimerStart = Time.time;
 	}
 }
