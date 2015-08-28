@@ -20,6 +20,9 @@ public class AIHoverCar : MonoBehaviour {
 	public float faceObjectBuffer = 50f;
 	float accelerationModifier;
 
+	//FX
+	public GameObject smoke, spark, deathExplosion;
+
 
 	public GameObject currentTarget;
 
@@ -290,6 +293,20 @@ public class AIHoverCar : MonoBehaviour {
 		}
 	}
 
+	void OnCollisionEnter(Collision thisCollision) {
+		if (thisCollision.collider.gameObject.tag == "Player") {
+			if (PlayerCar.s_instance.isThrusting) {
+				TakeHitFromThrust(thisCollision.contacts[0].point);
+			}
+		}
+
+
+	}
+
+	void TakeHitFromThrust (Vector3 pointOfContact) {
+		Instantiate(spark,pointOfContact,Quaternion.identity);
+	}
+
 	void OnEnable() {
 		PlayerCar.PlayerEngage+=ReceiveEngage;
 		PlayerCar.PlayerDisengage+=ReceiveDisengage;
@@ -305,10 +322,7 @@ public class AIHoverCar : MonoBehaviour {
 	}
 
 	void ReceiveInteract () {
-		print ("Received interact");
 		isReceivingInteract = true;
-
-		
 	}
 
 	void ReceiveDeinteract () {

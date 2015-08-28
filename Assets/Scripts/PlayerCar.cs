@@ -17,6 +17,7 @@ public class PlayerCar : CarMetrics
 	public float backwardAcl = 15000.0f;
 	public float strafeAcl = 5000.0f;
 	public float turnStrength = 5000f;
+	public float thrustForce = 50000f;
 	float currThrust = 0.0f;
 	float currTurn = 0.0f;
 	float currStrafe;
@@ -51,7 +52,7 @@ public class PlayerCar : CarMetrics
 	public delegate void DeinteractEvent();
 	public static event DeinteractEvent PlayerInteractEnd;
 
-	//fuck mechanics
+	// mechanics
 	public float fuckForce = 200000f;
 	public float pullBackForce = 500f;
 	float fuckCharge = 0f, lastFuckCharge, fuckChargeAbsorbRatio = 300f, staminaLossPerFuckRatio = 10000f;
@@ -158,11 +159,9 @@ public class PlayerCar : CarMetrics
 
 		}
 
-		if (inputDevice.Action4.WasPressed && currMovementState == MovementState.Engage) {
-			isCharged = true;
-		}
+	
 
-		if (inputDevice.Action4.WasReleased && isCharged == true) {
+		if (inputDevice.Action4.WasPressed) {
 			isThrusting = true;
 			lastFuckCharge = fuckCharge;
 			currentStamina-=lastFuckCharge/staminaLossPerFuckRatio;
@@ -244,22 +243,23 @@ public class PlayerCar : CarMetrics
 				//call event to end fuckstate for other cars
 			}
 			if (isCharged) {
-				PullBack();
-				fuckCharge+=10f;
 			}
 		}
 
 		
 		}
-	void PullBack () {
-		body.AddForce (-transform.forward * pullBackForce);
 
-	}
 
 	void Thrust() {
+		isThrusting = true;
+		StopCoroutine("IsThrusting");
+		StartCoroutine("IsThrusting");
+		body.AddForce (transform.forward * thrustForce);
+	}
+
+	IEnumerator IsThrusting () {
+		yield return new WaitForSeconds(1f);
 		isThrusting = false;
-		isCharged = false;
-		body.AddForce (transform.forward * fuckForce);
 	}
 
 	void StealGas() {
