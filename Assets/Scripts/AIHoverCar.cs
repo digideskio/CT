@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using InControl;
 
-public class AIHoverCar : MonoBehaviour {
+public class AIHoverCar : CarMetrics {
 
 	Rigidbody m_body;
 	float m_deadZone = 0.1f;
@@ -297,6 +297,7 @@ public class AIHoverCar : MonoBehaviour {
 		if (thisCollision.collider.gameObject.tag == "Player") {
 			if (PlayerCar.s_instance.isThrusting) {
 				TakeHitFromThrust(thisCollision.contacts[0].point);
+				TakeDamage(10f);
 			}
 		}
 
@@ -340,6 +341,11 @@ public class AIHoverCar : MonoBehaviour {
 		if (thisAIState == AIState.Submission) {
 			onFuckEndSwitch = true;
 		}
+	}
+
+	public override void Kill () {
+		Instantiate(deathExplosion);
+		Destroy(gameObject);
 	}
 
 }
