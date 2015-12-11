@@ -3,6 +3,13 @@ using System.Collections;
 using UnityEngine.UI;
 using InControl;
 
+public class NoteToSelf {
+	public string noteContents;
+	public int numberOfTimesViewed; //used to determine when 
+	public int importance;
+	public string title; //for deletion sake
+}
+
 public class GUIManager : MonoBehaviour {
 
 	public Slider gasSlider, stamina;
@@ -98,4 +105,6 @@ public class GUIManager : MonoBehaviour {
 		subtitleTimer = timer;
 		subtitleText.text = text;
 	}
+
+	public void AddNoteToSelf
 }
