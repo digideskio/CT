@@ -22,7 +22,7 @@ public class GUIManager : MonoBehaviour {
 	public GameObject inventoryPanel;
 	bool isInventoryOn = true;
 	[SerializeField]
-	Text subtitleText, thoughtText, gameover, timeDisplay, notes;
+	Text subtitleText, thoughtText, gameover, timeDisplay, notes, money;
 	public static GUIManager s_instance;
 
 	public List<NoteToSelf> notesToSelf = new List<NoteToSelf> ();
@@ -56,7 +56,7 @@ public class GUIManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		gasSlider.value = PlayerCar.s_instance.currentGas;
-
+		money.text = "Money: $" + PlayerCar.s_instance.money.ToString("F2");
 		timeDisplay.text = GameManager.s_instance.ReturnHour().ToString() +":"+ GameManager.s_instance.ReturnMinute().ToString();
 
 		if (thrustSlider.value > 0f){

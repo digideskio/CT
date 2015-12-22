@@ -38,9 +38,7 @@ public class Fader : MonoBehaviour {
 				else {
 					currColor = Color.Lerp (customEndColor, customStartColor, fracJourney);
 				}
-				
 			}
-			
 			else if (!oneToZeroAlpha) {
 				if (isBlack) {
 					currColor = Color.Lerp (zeroBlack, oneBlack, fracJourney);
