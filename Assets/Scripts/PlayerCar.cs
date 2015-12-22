@@ -19,6 +19,7 @@ public class PlayerCar : CarMetrics
 	public float backwardAcl = 15000.0f;
 	public float strafeAcl = 5000.0f;
 	public float turnStrength = 5000f;
+	public float money;
 	float thrustForce = 300000f;
 	float currThrust = 0.0f;
 	float thrustCoolDown = 1f;
