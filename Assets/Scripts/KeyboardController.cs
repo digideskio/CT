@@ -31,13 +31,13 @@ namespace CustomProfileExample
 				},
 
 				new InputControlMapping {
-					Handle = "Give Gas",
+					Handle = "Mode",
 					Target = InputControlType.Action2,
 					Source = KeyCodeButton(KeyCode.O)
 				},
 
 				new InputControlMapping {
-					Handle = "Grab",
+					Handle = "Interact",
 					Target = InputControlType.Action3,
 					Source = KeyCodeButton(KeyCode.Space)
 				},

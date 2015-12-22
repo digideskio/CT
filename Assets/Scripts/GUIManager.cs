@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using InControl;
 
@@ -8,18 +9,23 @@ public class NoteToSelf {
 	public int numberOfTimesViewed; //used to determine when 
 	public int importance;
 	public string title; //for deletion sake
+	public NoteToSelf(string newNoteContents, int newImportance = 5) {
+		noteContents = newNoteContents;
+		importance = newImportance;
+	}
 }
 
 public class GUIManager : MonoBehaviour {
 
-	public Slider gasSlider, stamina;
+	//TODO implement stamina logic
+	public Slider gasSlider, thrustSlider;
 	public GameObject inventoryPanel;
-	bool isInventoryOn;
-	public Text subtitleText;
-	public Text thoughtText;
-	public Text gameover;
-	public Text timeDisplay;
+	bool isInventoryOn = true;
+	[SerializeField]
+	Text subtitleText, thoughtText, gameover, timeDisplay, notes;
 	public static GUIManager s_instance;
+
+	public List<NoteToSelf> notesToSelf = new List<NoteToSelf> ();
 
 	bool thoughtTimerSwitch = false;
 	bool dialogueTimerSwitch = false;
@@ -53,25 +59,18 @@ public class GUIManager : MonoBehaviour {
 
 		timeDisplay.text = GameManager.s_instance.ReturnHour().ToString() +":"+ GameManager.s_instance.ReturnMinute().ToString();
 
-		if (stamina.value > 0f){
-			stamina.value -= .001f;
+		if (thrustSlider.value > 0f){
+			thrustSlider.value -= Time.deltaTime;
 		}
 
 		InputDevice inputDevice = InputManager.ActiveDevice;
 		if (inputDevice.Command.WasPressed) {
-			if (isInventoryOn) {
-				isInventoryOn = false;
-
-				for (int i = 0; i < inventoryPanel.transform.childCount; i++) {
-					inventoryPanel.transform.GetChild (i).gameObject.SetActive(false);
-				}
+			if (!isInventoryOn) {
+				EnableInventory ();
 
 			}
-			else if (!isInventoryOn){
-				isInventoryOn = true;
-				for (int i = 0; i < inventoryPanel.transform.childCount; i++) {
-					inventoryPanel.transform.GetChild (i).gameObject.SetActive(true);
-				}
+			else if (isInventoryOn){
+				DisableInventory ();
 			}
 		}
 
@@ -106,5 +105,36 @@ public class GUIManager : MonoBehaviour {
 		subtitleText.text = text;
 	}
 
-	public void AddNoteToSelf
+	public void AddNoteToSelf(NoteToSelf thisNote) {
+		notesToSelf.Add(thisNote);
+	}
+
+	void EnableInventory () {
+		isInventoryOn = true;
+		for (int i = 0; i < inventoryPanel.transform.childCount; i++) {
+			inventoryPanel.transform.GetChild (i).gameObject.SetActive(true);
+		}
+		DisplayNotesToSelf ();
+
+	}
+
+	void DisableInventory () {
+		isInventoryOn = false;
+		for (int i = 0; i < inventoryPanel.transform.childCount; i++) {
+			inventoryPanel.transform.GetChild (i).gameObject.SetActive (false);
+		}
+	}
+
+	void DisplayNotesToSelf () {
+		string allNotesToSelf = "Notes to Self:\n";
+		foreach (NoteToSelf x in notesToSelf) {
+			if (x.numberOfTimesViewed >= x.importance) {
+				notesToSelf.Remove (x);
+			} else {
+				x.numberOfTimesViewed++;
+				allNotesToSelf += x.noteContents + "\n";
+			}
+		}
+		notes.text = allNotesToSelf;
+	}
 }

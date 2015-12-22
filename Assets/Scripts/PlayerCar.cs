@@ -7,6 +7,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerCar : CarMetrics
 {
+	[SerializeField]
+	bool debugCarPosition;
 	public static PlayerCar s_instance;
 	public GameObject[] m_hoverPoints;
 	Rigidbody body;
@@ -17,8 +19,9 @@ public class PlayerCar : CarMetrics
 	public float backwardAcl = 15000.0f;
 	public float strafeAcl = 5000.0f;
 	public float turnStrength = 5000f;
-	public float thrustForce = 50000f;
+	float thrustForce = 300000f;
 	float currThrust = 0.0f;
+	float thrustCoolDown = 1f;
 	float currTurn = 0.0f;
 	float currStrafe;
 	int layerMask;
@@ -53,10 +56,6 @@ public class PlayerCar : CarMetrics
 	public static event DeinteractEvent PlayerInteractEnd;
 
 	// mechanics
-	public float fuckForce = 200000f;
-	public float pullBackForce = 500f;
-	float fuckCharge = 0f, lastFuckCharge, fuckChargeAbsorbRatio = 300f, staminaLossPerFuckRatio = 10000f;
-	public GameObject PheremoneCharge;
 	float staminaLossRate = .001f;
 
 	public enum MovementState {Drive, Engage, Submit, OutOfGas};
@@ -75,7 +74,9 @@ public class PlayerCar : CarMetrics
 	void Start ()
 	{
 		body = GetComponent<Rigidbody> ();
-		
+		if (debugCarPosition) {
+			transform.position = new Vector3 (0, 10f, 0);
+		}
 		layerMask = 1 << LayerMask.NameToLayer ("Characters");
 		layerMask = ~layerMask;
 	}
@@ -135,7 +136,7 @@ public class PlayerCar : CarMetrics
 
 
 
-
+		//TODO add in the toggle weapons mode
 
 
 		//__________________________________________INTERACTION__________________________________________
@@ -162,10 +163,6 @@ public class PlayerCar : CarMetrics
 	
 
 		if (inputDevice.Action4.WasPressed) {
-			isThrusting = true;
-			lastFuckCharge = fuckCharge;
-			currentStamina-=lastFuckCharge/staminaLossPerFuckRatio;
-			fuckCharge = 0f;
 			Thrust ();
 		}
 
@@ -237,35 +234,31 @@ public class PlayerCar : CarMetrics
 		//______________________________________INTERCOURSE PHYSICS______________________________________
 
 		else if (currMovementState == MovementState.Engage) {
-			currentStamina-=staminaLossRate;
-			if (currentStamina < 0.005) {
-				currMovementState = MovementState.Drive;
-				//call event to end fuckstate for other cars
-			}
+//			currentStamina-=staminaLossRate;
+//			if (currentStamina < 0.005) {
+//				currMovementState = MovementState.Drive;
+//			}
 			if (isCharged) {
 			}
 		}
-
-		
-		}
+	}
 
 
 	void Thrust() {
-		isThrusting = true;
-		StopCoroutine("IsThrusting");
-		StartCoroutine("IsThrusting");
-		body.AddForce (transform.forward * thrustForce);
+		if (!isThrusting) {
+			isThrusting = true;
+			StartCoroutine ("IsThrusting");
+		}
 	}
 
 	IEnumerator IsThrusting () {
-		yield return new WaitForSeconds(1f);
+		body.AddForce (transform.forward * thrustForce);
+		GUIManager.s_instance.thrustSlider.value = thrustCoolDown;
+		yield return new WaitForSeconds(thrustCoolDown);
 		isThrusting = false;
 	}
 
 	void StealGas() {
-		//if (make contact with car after thrusting, car spits out gas and add lastFuckCharge
-		currentGas+=lastFuckCharge/fuckChargeAbsorbRatio;
-		print ("gained gas " +lastFuckCharge/fuckChargeAbsorbRatio);
 	}
 
 	void OnCollisionEnter (Collision thisCollision) {

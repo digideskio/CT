@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CarController : MonoBehaviour {
+public class InteractableObject : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
