@@ -26,16 +26,20 @@ public class GasTank : InteractableObject {
 	}
 
 	void OnTriggerEnter (Collider other) {
+		if (!isPlayerInProximity) {
+			costOfGasText.gameObject.GetComponent<Fader> ().StartFadeIn ();
+		}
 		if (other.tag == "Player") {
 			isPlayerInProximity = true;
-			costOfGasText.gameObject.GetComponent<Fader> ().StartFadeIn ();
 		}
 	}
 
 	void OnTriggerExit (Collider other) {
+		if (isPlayerInProximity) {
+			costOfGasText.gameObject.GetComponent<Fader> ().StartFadeOut ();
+		}
 		if (other.tag == "Player") {
 			isPlayerInProximity = false;
-			costOfGasText.gameObject.GetComponent<Fader> ().StartFadeOut ();
 
 		}
 	}
