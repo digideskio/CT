@@ -3,7 +3,7 @@ using System.Collections;
 
 public class HoverFollowCam : MonoBehaviour
 {
-	Transform player, camPos;
+	public Transform player, camPos;
 	int layerMask;
 	float camDistanceToCamPos;
 	float smoothRate = 8f;
@@ -17,8 +17,6 @@ public class HoverFollowCam : MonoBehaviour
 
 	void Start()
 	{
-		player = GameObject.FindGameObjectWithTag("Player").transform;
-		camPos = GameObject.FindGameObjectWithTag("CamPos").transform;
 		layerMask = 1 << LayerMask.NameToLayer("Characters");
 	}
 
