@@ -29,6 +29,7 @@ public class AIHoverCar : CarMetrics {
 	bool accelerate, steer, strafe;
 
 	int m_layerMask;
+	int m_wallMask;
 	bool isTouchingGround;
 	
 	void Start()
@@ -36,8 +37,10 @@ public class AIHoverCar : CarMetrics {
 		m_body = GetComponent<Rigidbody>();
 		m_layerMask = 1 << LayerMask.NameToLayer("Characters");
 		m_layerMask = ~m_layerMask;
+
+		m_wallMask = 1 << LayerMask.NameToLayer("Walls");
 	}
-	
+		
 	void FixedUpdate()
 	{
 		if (accelerate) {
@@ -224,6 +227,8 @@ public class AIHoverCar : CarMetrics {
 	public CarType thisCarType;
 	public AIState thisAIState = AIState.Idle;
 	bool onFuckStartSwitch, onFuckEndSwitch, isReceivingInteract;
+	bool isWallInFront, isWallOnRight, isWallOnLeft;
+	private float wallDetectionDistance = 20f, wallDetectionDistanceLateral = 5f;
 	void Update()
 	{
 		switch (thisAIState) {
@@ -260,8 +265,22 @@ public class AIHoverCar : CarMetrics {
 			}
 			break;
 
-		case AIState.Wander : 
-			MoveTowardTarget(new Vector3(0,0,0));
+		case AIState.Wander: 
+			DetectForWalls ();
+			if (!isWallInFront) {
+				Accelerate ();
+			}
+
+			if (isWallOnLeft && isWallOnRight) {
+			
+			} else if (isWallOnLeft || isWallInFront) {
+				SetSteering (true, false);
+			} else if (isWallOnRight) {
+				SetSteering (true, true);
+
+			} else {
+				SetSteering (false, false);
+			}
 			break;
 
 		}
@@ -346,6 +365,29 @@ public class AIHoverCar : CarMetrics {
 	public override void Kill () {
 		Instantiate(deathExplosion);
 		Destroy(gameObject);
+	}
+
+	void DetectForWalls () {
+		//ray cast forward, right and left
+		RaycastHit hitRight, hitLeft, hitForward;
+		if (Physics.Raycast (transform.position, transform.forward, out hitForward, wallDetectionDistance, m_wallMask)) {
+			isWallInFront = true;
+		} else {
+			isWallInFront = false;
+
+		}
+		if (Physics.Raycast (transform.position, transform.right, out hitRight, wallDetectionDistanceLateral, m_wallMask)) {
+			isWallOnRight = true;
+		} else {
+			isWallOnRight = false;
+
+		}
+		if (Physics.Raycast (transform.position, -transform.right, out hitLeft, wallDetectionDistanceLateral, m_wallMask)) {
+			isWallOnLeft = true;
+		} else {
+			isWallOnLeft = false;
+		}
+
 	}
 
 }
