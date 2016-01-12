@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
 using InControl;
 
 public class AIHoverCar : CarMetrics {
@@ -218,74 +217,7 @@ public class AIHoverCar : CarMetrics {
 	}
 
 
-	//____________________________________________________STATE MACHINE____________________________________________________
-
-
-	public enum AIState {Idle, Face, Submission, Flee, Wander, Suicide, Follow, Court, Chase, Disabled, Report, Explore, Survive, Hunt}; 
-	//on first fuck cars Consent, second Flight, third Surrender
-	public enum CarType {Thief, Mechanic, Civ};
-	public CarType thisCarType;
-	public AIState thisAIState = AIState.Idle;
-	bool onFuckStartSwitch, onFuckEndSwitch, isReceivingInteract;
-	bool isWallInFront, isWallOnRight, isWallOnLeft;
-	private float wallDetectionDistance = 20f, wallDetectionDistanceLateral = 5f;
-	void Update()
-	{
-		switch (thisAIState) {
-		case AIState.Disabled :
-			if (isReceivingInteract) {
-				ForceTowardTarget(PlayerCar.s_instance.bulldozeChildTransform.position);
-				FaceTarget(PlayerCar.s_instance.bulldozeChildTransform.GetChild (0).position);
-			}
-			break;
-		case AIState.Idle :
-			break;
-		case AIState.Face :
-			FaceTarget(PlayerCar.s_instance.transform.position);
-			break;
-		case AIState.Chase :
-			MoveTowardTarget(PlayerCar.s_instance.transform.position);
-			FaceTarget(PlayerCar.s_instance.transform.position);
-			break;
-		case AIState.Court :
-			FaceAwayFromTarget(PlayerCar.s_instance.transform.position);
-			if (onFuckStartSwitch) {
-				thisAIState = AIState.Submission;
-				onFuckStartSwitch = false;
-			}
-			break;
-
-		case AIState.Submission :
-			FaceAwayFromTarget(PlayerCar.s_instance.transform.position);
-			BackUpIntoTarget(PlayerCar.s_instance.transform.position);
-			if (onFuckEndSwitch) {
-				thisAIState = AIState.Wander;
-				onFuckEndSwitch = false;
-
-			}
-			break;
-
-		case AIState.Wander: 
-			DetectForWalls ();
-			if (!isWallInFront) {
-				Accelerate ();
-			}
-
-			if (isWallOnLeft && isWallOnRight) {
-			
-			} else if (isWallOnLeft || isWallInFront) {
-				SetSteering (true, false);
-			} else if (isWallOnRight) {
-				SetSteering (true, true);
-
-			} else {
-				SetSteering (false, false);
-			}
-			break;
-
-		}
-	}
-
+	#region OnTriggerOnCollision
 	//need to make a comparison for physique here
 	void OnTriggerEnter (Collider other) {
 		if (other.gameObject.tag == "Player") {
@@ -319,14 +251,12 @@ public class AIHoverCar : CarMetrics {
 				TakeDamage(10f);
 			}
 		}
-
-
 	}
-
+	#endregion
 	void TakeHitFromThrust (Vector3 pointOfContact) {
 		Instantiate(spark,pointOfContact,Quaternion.identity);
 	}
-
+	#region EventDrivenFunctions
 	void OnEnable() {
 		PlayerCar.PlayerEngage+=ReceiveEngage;
 		PlayerCar.PlayerDisengage+=ReceiveDisengage;
@@ -352,13 +282,11 @@ public class AIHoverCar : CarMetrics {
 
 	void ReceiveEngage () {
 		if (thisAIState == AIState.Court) {
-			onFuckStartSwitch = true;
 		}
 	}
 
 	void ReceiveDisengage () {
 		if (thisAIState == AIState.Submission) {
-			onFuckEndSwitch = true;
 		}
 	}
 
@@ -366,7 +294,8 @@ public class AIHoverCar : CarMetrics {
 		Instantiate(deathExplosion);
 		Destroy(gameObject);
 	}
-
+	#endregion
+	#region WanderStateFunctions
 	void DetectForWalls () {
 		//ray cast forward, right and left
 		RaycastHit hitRight, hitLeft, hitForward;
@@ -390,4 +319,108 @@ public class AIHoverCar : CarMetrics {
 
 	}
 
+	bool GenerateRandomBool() {
+		return (Random.value > 0.5f);
+	}
+
+	void SteerAwayFromWalls() {
+		if (!isWallInFront) {
+			Accelerate ();
+		}
+
+		if (isWallOnLeft && isWallOnRight) {
+
+		} else if (isWallOnLeft || isWallInFront) {
+			SetSteering (true, false);
+		} else if (isWallOnRight) {
+			SetSteering (true, true);
+
+		} else {
+			SetSteering (false, false);
+		}
+	}
+
+	void SetTurnByAngle() {
+		if (Random.Range(0, randomTurnProbability) == 0 && !isSteering){
+			angleToRotateBy = Random.Range (50, 179);
+			isTurningRight = GenerateRandomBool ();
+			previousForwardDirection = transform.forward;
+			isSteering = true;
+			print ("RANDOM TURN");
+		}
+	}
+
+	void TurnToCompletion() {
+		if (Vector3.Angle (previousForwardDirection, transform.forward) > angleToRotateBy) {
+			print ("TURN COMPLETE");
+			isSteering = false;
+			SetSteering (false, false);
+		} else {
+			print ("STEERING");
+			SetSteering (true, isTurningRight);
+			Accelerate ();
+		}
+	}
+	#endregion
+	//____________________________________________________STATE MACHINE____________________________________________________
+
+	#region StateMachine
+	public enum AIState {Idle, Face, Submission, Flee, Wander, Suicide, Follow, Court, Chase, Disabled, Report, Explore, Survive, Hunt}; 
+	public enum CarType {Thief, Mechanic, Civ};
+	public CarType thisCarType;
+	public AIState thisAIState = AIState.Idle;
+	bool isReceivingInteract;
+	bool isWallInFront, isWallOnRight, isWallOnLeft;
+
+	//rotate by angle logic
+	Vector3 previousForwardDirection;
+	float angleToRotateBy;
+	bool isSteering;
+	bool isTurningRight;
+	int randomTurnProbability = 50;
+
+	private float wallDetectionDistance = 20f, wallDetectionDistanceLateral = 5f;
+	void Update()
+	{
+		switch (thisAIState) {
+		case AIState.Disabled :
+			if (isReceivingInteract) {
+				ForceTowardTarget(PlayerCar.s_instance.bulldozeChildTransform.position);
+				FaceTarget(PlayerCar.s_instance.bulldozeChildTransform.GetChild (0).position);
+			}
+			break;
+		case AIState.Idle :
+			break;
+		case AIState.Face :
+			FaceTarget(PlayerCar.s_instance.transform.position);
+			break;
+		case AIState.Chase :
+			MoveTowardTarget(PlayerCar.s_instance.transform.position);
+			FaceTarget(PlayerCar.s_instance.transform.position);
+			break;
+		case AIState.Court :
+			FaceAwayFromTarget(PlayerCar.s_instance.transform.position);
+			break;
+
+		case AIState.Submission :
+			FaceAwayFromTarget(PlayerCar.s_instance.transform.position);
+			BackUpIntoTarget(PlayerCar.s_instance.transform.position);
+
+			break;
+
+		case AIState.Wander: 
+			SetTurnByAngle ();
+			if (isSteering) {
+				TurnToCompletion ();
+			}
+			DetectForWalls ();
+			if (!isSteering) {
+				SteerAwayFromWalls ();
+			}
+
+			break;
+
+		}
+	}
+	#endregion
 }
