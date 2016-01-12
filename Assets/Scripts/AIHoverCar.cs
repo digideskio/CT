@@ -342,7 +342,7 @@ public class AIHoverCar : CarMetrics {
 
 	void SetTurnByAngle() {
 		if (Random.Range(0, randomTurnProbability) == 0 && !isSteering){
-			angleToRotateBy = Random.Range (50, 179);
+			angleToRotateBy = Random.Range (10, 179);
 			isTurningRight = GenerateRandomBool ();
 			previousForwardDirection = transform.forward;
 			isSteering = true;
