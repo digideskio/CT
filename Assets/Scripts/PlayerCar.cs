@@ -44,11 +44,11 @@ public class PlayerCar : CarMetrics
 	public Transform bulldozeChildTransform;
 	public Transform cameraEngagePosition;
 
-	public delegate void Engage();
-	public static event Engage PlayerEngage;
+	public delegate void Target();
+	public static event Target BeginTarget;
 	
-	public delegate void Disengage();
-	public static event Disengage PlayerDisengage;
+	public delegate void Untarget();
+	public static event Untarget EndTarget;
 
 	public delegate void InteractEvent();
 	public static event InteractEvent PlayerInteractStart;
@@ -59,7 +59,7 @@ public class PlayerCar : CarMetrics
 	// mechanics
 	float staminaLossRate = .001f;
 
-	public enum MovementState {Drive, Engage, Submit, OutOfGas};
+	public enum MovementState {Drive, Target, Submit, OutOfGas};
 	public MovementState currMovementState = MovementState.Drive;
 	public bool isCharged, isThrusting;
 
@@ -141,6 +141,7 @@ public class PlayerCar : CarMetrics
 
 
 		//__________________________________________INTERACTION__________________________________________
+
 		if (inputDevice.Action1.WasPressed) {
 			PlayerInteractStart();
 		}
@@ -150,13 +151,13 @@ public class PlayerCar : CarMetrics
 		}
 
 		if (inputDevice.Action3.WasPressed) {
-			currMovementState = MovementState.Engage;
-			PlayerEngage();
-			Camera.main.GetComponent<HoverFollowCam>().thisCameraMode = HoverFollowCam.CameraMode.engagedMode;
+			currMovementState = MovementState.Target;
+			BeginTarget();
+			Camera.main.GetComponent<HoverFollowCam>().thisCameraMode = HoverFollowCam.CameraMode.targetMode;
 		}
 		if (inputDevice.Action3.WasReleased) {
 			currMovementState = MovementState.Drive;
-			PlayerDisengage();
+			EndTarget();
 			Camera.main.GetComponent<HoverFollowCam>().thisCameraMode = HoverFollowCam.CameraMode.normalMode;
 
 		}
@@ -234,7 +235,7 @@ public class PlayerCar : CarMetrics
 
 		//______________________________________INTERCOURSE PHYSICS______________________________________
 
-		else if (currMovementState == MovementState.Engage) {
+		else if (currMovementState == MovementState.Target) {
 //			currentStamina-=staminaLossRate;
 //			if (currentStamina < 0.005) {
 //				currMovementState = MovementState.Drive;
@@ -263,7 +264,7 @@ public class PlayerCar : CarMetrics
 	}
 
 	void OnCollisionEnter (Collision thisCollision) {
-		if (thisCollision.collider.gameObject.tag == "NPC" && currMovementState == MovementState.Engage) {
+		if (thisCollision.collider.gameObject.tag == "NPC" && currMovementState == MovementState.Target) {
 			StealGas();
 		}
 	}

@@ -5,18 +5,17 @@ using InControl;
 public class AIHoverCar : CarMetrics {
 
 	Rigidbody m_body;
-	float m_deadZone = 0.1f;
-	public float bullDozeStrength = 1000f;
-	public float accelerateStrength = 30000f;
-	public float turnStrength = 5000f;
-	public float strafeStrength = 10000f;
-	public float verticalAxisDirection = 1f;
-	public float horizontalAxisDirection = 1f;
-	public float strafeAxisDirection = 1f;
-	public float m_hoverForce = 9.0f;
-	public float m_hoverHeight = 2.0f;
+	protected float bullDozeStrength = 1000f;
+	protected float accelerateStrength = 30000f;
+	protected float turnStrength = 5000f;
+	protected float strafeStrength = 10000f;
+	protected float verticalAxisDirection = 1f;
+	protected float horizontalAxisDirection = 1f;
+	protected float strafeAxisDirection = 1f;
+	protected float m_hoverForce = 9.0f;
+	protected float m_hoverHeight = 2.0f;
 	public GameObject[] m_hoverPoints;
-	public float faceObjectBuffer = 50f;
+	protected float faceObjectBuffer = 50f;
 	float accelerationModifier;
 
 	//FX
@@ -218,7 +217,6 @@ public class AIHoverCar : CarMetrics {
 
 
 	#region OnTriggerOnCollision
-	//need to make a comparison for physique here
 	void OnTriggerEnter (Collider other) {
 		if (other.gameObject.tag == "Player") {
 			if (thisCarType == CarType.Thief) {
@@ -257,16 +255,16 @@ public class AIHoverCar : CarMetrics {
 		Instantiate(spark,pointOfContact,Quaternion.identity);
 	}
 	#region EventDrivenFunctions
-	void OnEnable() {
-		PlayerCar.PlayerEngage+=ReceiveEngage;
-		PlayerCar.PlayerDisengage+=ReceiveDisengage;
+	protected void OnEnable() {
+		PlayerCar.BeginTarget+=BeginIsTargeted;
+		PlayerCar.EndTarget+=EndIsTargeted;
 		PlayerCar.PlayerInteractStart+=ReceiveInteract;
 		PlayerCar.PlayerInteractEnd+=ReceiveDeinteract;
 	}
 
-	void OnDisable() {
-		PlayerCar.PlayerEngage-=ReceiveEngage;
-		PlayerCar.PlayerDisengage-=ReceiveDisengage;
+	protected void OnDisable() {
+		PlayerCar.BeginTarget-=BeginIsTargeted;
+		PlayerCar.EndTarget-=EndIsTargeted;
 		PlayerCar.PlayerInteractStart-=ReceiveInteract;
 		PlayerCar.PlayerInteractEnd-=ReceiveDeinteract;
 	}
@@ -280,13 +278,15 @@ public class AIHoverCar : CarMetrics {
 
 	}
 
-	void ReceiveEngage () {
-		if (thisAIState == AIState.Court) {
+	void BeginIsTargeted () {
+		if (thisCarType == CarType.Mechanic) {
+			
 		}
 	}
 
-	void ReceiveDisengage () {
+	void EndIsTargeted () {
 		if (thisAIState == AIState.Submission) {
+			
 		}
 	}
 
@@ -377,7 +377,7 @@ public class AIHoverCar : CarMetrics {
 	float angleToRotateBy;
 	bool isSteering;
 	bool isTurningRight;
-	int randomTurnProbability = 50;
+	int randomTurnProbability = 300;
 
 	private float wallDetectionDistance = 20f, wallDetectionDistanceLateral = 5f;
 	void Update()

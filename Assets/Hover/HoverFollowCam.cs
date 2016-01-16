@@ -9,7 +9,7 @@ public class HoverFollowCam : MonoBehaviour
 	float smoothRate = 8f;
 	float verticalLookOffset = 3f;
 	private Vector3 refVelocity = Vector3.zero;
-	public enum CameraMode {normalMode, engagedMode, aimMode};
+	public enum CameraMode {normalMode, targetMode, aimMode};
 	public CameraMode thisCameraMode = CameraMode.normalMode;
 
 	//switches
@@ -34,7 +34,7 @@ public class HoverFollowCam : MonoBehaviour
 		case CameraMode.normalMode :
 			transform.position -= (transform.position - camPos.position) * smoothRate *Time.deltaTime;
 			break;
-		case CameraMode.engagedMode :
+		case CameraMode.targetMode :
 			transform.position -= (transform.position - camPos.GetChild(0).position) * smoothRate *Time.deltaTime;
 			break;
 		}
