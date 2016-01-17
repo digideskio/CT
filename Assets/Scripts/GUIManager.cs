@@ -44,6 +44,7 @@ public class GUIManager : MonoBehaviour {
 	float subtitleTimer = 0, subtitleTimerStart;
 	// Use this for initialization
 	void Start () {
+		EnableInventory ();
 		if (subtitleTimer > Time.time - subtitleTimerStart) {
 			subtitleText.enabled = true;
 		}
@@ -108,12 +109,11 @@ public class GUIManager : MonoBehaviour {
 	}
 
 	public void AddNoteToSelf(NoteToSelf thisNote) {
-		if (thisNote.importance > 0) {
-			notesToSelf.Add (thisNote);
-		}
+		notesToSelf.Add (thisNote);
 	}
 
 	void EnableInventory () {
+		Time.timeScale = 0;
 		isInventoryOn = true;
 		for (int i = 0; i < inventoryPanel.transform.childCount; i++) {
 			inventoryPanel.transform.GetChild (i).gameObject.SetActive(true);
@@ -123,6 +123,8 @@ public class GUIManager : MonoBehaviour {
 	}
 
 	void DisableInventory () {
+		Time.timeScale = 1f;
+
 		isInventoryOn = false;
 		for (int i = 0; i < inventoryPanel.transform.childCount; i++) {
 			inventoryPanel.transform.GetChild (i).gameObject.SetActive (false);
