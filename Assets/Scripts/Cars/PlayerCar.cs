@@ -232,17 +232,6 @@ public class PlayerCar : CarMetrics
 				}
 			}
 		}
-
-		//______________________________________INTERCOURSE PHYSICS______________________________________
-
-		else if (currMovementState == MovementState.Target) {
-//			currentStamina-=staminaLossRate;
-//			if (currentStamina < 0.005) {
-//				currMovementState = MovementState.Drive;
-//			}
-			if (isCharged) {
-			}
-		}
 	}
 
 

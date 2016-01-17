@@ -17,11 +17,11 @@ public class CarMetrics : MonoBehaviour {
 	public void TakeDamage(float x) {
 		currentHealth -= x;
 		if (currentHealth <= 0) {
-			Kill ();
+			Die ();
 		}
 	}
 
-	public virtual void Kill () {
+	public virtual void Die () {
 
 	}
 

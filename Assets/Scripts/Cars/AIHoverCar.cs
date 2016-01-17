@@ -19,8 +19,7 @@ public class AIHoverCar : CarMetrics {
 	float accelerationModifier;
 
 	//FX
-	public GameObject smoke, spark, deathExplosion;
-
+	[SerializeField] GameObject smoke, spark, deathExplosion;
 
 	public GameObject currentTarget;
 
@@ -51,7 +50,7 @@ public class AIHoverCar : CarMetrics {
 			Strafe ();
 		}
 
-
+		#region hoverphysics
 		//HOVER PHYSICS
 		RaycastHit hit;
 		for (int i = 0; i < m_hoverPoints.Length; i++)
@@ -71,8 +70,10 @@ public class AIHoverCar : CarMetrics {
 				}
 			}
 		}
+		#endregion
 	}
 
+	#region movementFunctions
 	public void Accelerate() {
 		m_body.AddForce(transform.forward * (accelerateStrength+accelerationModifier) * verticalAxisDirection);
 	}
@@ -214,34 +215,9 @@ public class AIHoverCar : CarMetrics {
 			SetSteering (false,false);
 		}
 	}
+	#endregion
 
-
-	#region OnTriggerOnCollision
-	void OnTriggerEnter (Collider other) {
-		if (other.gameObject.tag == "Player") {
-			if (thisCarType == CarType.Thief) {
-				thisAIState = AIState.Chase;
-			}
-			else if (thisCarType == CarType.Mechanic) {
-				thisAIState = AIState.Face;
-
-			}
-
-			else {thisAIState = AIState.Disabled;}
-		}
-	}
-
-	void OnTriggerExit (Collider other) {
-		if (other.gameObject.tag == "Player") {
-			if (thisCarType == CarType.Mechanic) {
-				thisAIState = AIState.Idle;
-			}
-			else if (thisCarType == CarType.Thief) {
-				thisAIState = AIState.Idle;
-			}
-		}
-	}
-
+	#region OnCollision
 	void OnCollisionEnter(Collision thisCollision) {
 		if (thisCollision.collider.gameObject.tag == "Player") {
 			if (PlayerCar.s_instance.isThrusting) {
@@ -251,9 +227,6 @@ public class AIHoverCar : CarMetrics {
 		}
 	}
 	#endregion
-	void TakeHitFromThrust (Vector3 pointOfContact) {
-		Instantiate(spark,pointOfContact,Quaternion.identity);
-	}
 	#region EventDrivenFunctions
 	protected void OnEnable() {
 		PlayerCar.BeginTarget+=BeginIsTargeted;
@@ -290,11 +263,14 @@ public class AIHoverCar : CarMetrics {
 		}
 	}
 
-	public override void Kill () {
-		Instantiate(deathExplosion);
-		Destroy(gameObject);
-	}
 	#endregion
+	void TakeHitFromThrust (Vector3 pointOfContact) {
+		Instantiate(spark,pointOfContact,Quaternion.identity);
+	}
+	public override void Die () {
+		Instantiate(deathExplosion,transform.position, Quaternion.identity);
+		Destroy (gameObject);
+	}
 	#region WanderStateFunctions
 	void DetectForWalls () {
 		//ray cast forward, right and left
@@ -378,7 +354,6 @@ public class AIHoverCar : CarMetrics {
 	bool isSteering;
 	bool isTurningRight;
 	int randomTurnProbability = 300;
-
 	private float wallDetectionDistance = 20f, wallDetectionDistanceLateral = 5f;
 	void Update()
 	{
@@ -417,7 +392,6 @@ public class AIHoverCar : CarMetrics {
 			if (!isSteering) {
 				SteerAwayFromWalls ();
 			}
-
 			break;
 
 		}
