@@ -184,7 +184,7 @@ public class AIHoverCar : CarMetrics {
 		}
 	}
 	public void ForceTowardTarget (Vector3 target) {
-		//move directly toward
+		//move directly toward without steering (for use when getting tractor beamed)
 
 		if (Vector3.Distance(transform.position, target) > 1f) {
 			print (target + "target");
@@ -268,8 +268,18 @@ public class AIHoverCar : CarMetrics {
 		Instantiate(spark,pointOfContact,Quaternion.identity);
 	}
 	public override void Die () {
-		Instantiate(deathExplosion,transform.position, Quaternion.identity);
-		Destroy (gameObject);
+		if (thisAIState != AIState.Disabled) {
+			Instantiate (deathExplosion, transform.position, Quaternion.identity);
+			GameObject smokeObj = Instantiate (smoke, transform.position, Quaternion.identity)as GameObject;
+			smokeObj.transform.SetParent (gameObject.transform);
+			thisAIState = AIState.Disabled;
+			foreach (Light x in tailLights) {
+				x.enabled = false;
+			}
+			foreach (Light y in headLights) {
+				y.enabled = false;
+			}
+		}
 	}
 	#region WanderStateFunctions
 	void DetectForWalls () {
