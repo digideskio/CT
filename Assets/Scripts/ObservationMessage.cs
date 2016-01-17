@@ -5,7 +5,7 @@ public class ObservationMessage : MonoBehaviour {
 
 	public string thisMessage;
 	bool hasMessagePlayed = false;
-
+	[SerializeField] int importance;
 	void OnTriggerEnter (Collider other) {
 		if (other.tag == "Player") {
 			if (!hasMessagePlayed) {

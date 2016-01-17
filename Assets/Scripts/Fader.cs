@@ -72,6 +72,7 @@ public class Fader : MonoBehaviour {
 			}
 			if (fracJourney >= 1) {
 				fading = false;
+				startTime = 0;
 			}
 		}
 	}

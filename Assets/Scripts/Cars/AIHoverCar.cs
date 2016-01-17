@@ -332,17 +332,14 @@ public class AIHoverCar : CarMetrics {
 			isTurningRight = GenerateRandomBool ();
 			previousForwardDirection = transform.forward;
 			isSteering = true;
-			print ("RANDOM TURN");
 		}
 	}
 
 	void TurnToCompletion() {
 		if (Vector3.Angle (previousForwardDirection, transform.forward) > angleToRotateBy) {
-			print ("TURN COMPLETE");
 			isSteering = false;
 			SetSteering (false, false);
 		} else {
-			print ("STEERING");
 			SetSteering (true, isTurningRight);
 			Accelerate ();
 		}

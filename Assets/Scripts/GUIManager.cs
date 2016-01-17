@@ -75,10 +75,10 @@ public class GUIManager : MonoBehaviour {
 		}
 
 		if (thoughtTimer > 0) {
-			thoughtText.enabled = true;
 			thoughtTimer -= Time.deltaTime;
-		} else if (thoughtTimer <= 0) {
-			thoughtText.enabled = false;
+		} else if (thoughtTimer <= 0 && isDisplayingThought) {
+			isDisplayingThought = false;
+			thoughtText.gameObject.GetComponent<Fader> ().StartFadeOut ();
 
 		}
 
@@ -87,26 +87,30 @@ public class GUIManager : MonoBehaviour {
 			subtitleTimer -= Time.deltaTime;
 		} else if (subtitleTimer <= 0) {
 			subtitleText.enabled = false;
-			
 		}
 
 		if (PlayerCar.s_instance.currMovementState == PlayerCar.MovementState.OutOfGas) {
 			gameover.gameObject.SetActive(true);
 		}
 	}
-
-	public void SetThoughtText (string text, float timer = 5f) {
+	bool isDisplayingThought = false;
+	public void SetThoughtText (string text, float timer = 3.5f) {
 		thoughtTimer = timer;
 		thoughtText.text = text;
+		thoughtText.gameObject.GetComponent<Fader> ().StartFadeIn ();
+		isDisplayingThought = true;
+
 	}
 
-	public void SetSubtitleText (string text, float timer = 5f) {
+	public void SetSubtitleText (string text, float timer = 3f) {
 		subtitleTimer = timer;
 		subtitleText.text = text;
 	}
 
 	public void AddNoteToSelf(NoteToSelf thisNote) {
-		notesToSelf.Add(thisNote);
+		if (thisNote.importance > 0) {
+			notesToSelf.Add (thisNote);
+		}
 	}
 
 	void EnableInventory () {
