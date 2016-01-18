@@ -6,7 +6,7 @@ public class AIHoverCar : CarMetrics {
 
 	Rigidbody m_body;
 	protected float bullDozeStrength = 1000f;
-	protected float accelerateStrength = 30000f;
+	public float accelerateStrength = 30000f;
 	protected float turnStrength = 5000f;
 	protected float strafeStrength = 10000f;
 	protected float verticalAxisDirection = 1f;
@@ -17,7 +17,9 @@ public class AIHoverCar : CarMetrics {
 	public GameObject[] hoverPoints;
 	protected float faceObjectBuffer = 5f;
 	float accelerationModifier;
-
+	float tooCloseDistance = 9f;
+	bool playerIsTooClose;
+	int numOfTimesBreachedComfortZone;
 
 	//FX
 	[SerializeField] GameObject smoke, spark, deathExplosion;
@@ -51,7 +53,7 @@ public class AIHoverCar : CarMetrics {
 		if (strafe) {
 			Strafe ();
 		}
-		if (faceTarget && thisAIState!=AIState.Disabled) {
+		if (faceTarget && thisAIState!=AIState.Disabled && currentTarget!=null) {
 			FaceTarget (currentTarget.position);
 		}
 
@@ -178,7 +180,6 @@ public class AIHoverCar : CarMetrics {
 			SetSteering(false,false);
 		}
 	}
-
 
 	public void MoveTowardTarget (Vector3 target) {
 		//use x/z coordinates to tell where target is with regards to car
@@ -380,6 +381,12 @@ public class AIHoverCar : CarMetrics {
 	private float wallDetectionDistance = 20f, wallDetectionDistanceLateral = 5f;
 	void Update()
 	{
+		if (isCloseToPlayer && !playerIsTooClose && Vector3.Distance (transform.position, PlayerCar.s_instance.transform.position) < tooCloseDistance) {
+			PlayerCameTooClose ();
+		}
+		else if (playerIsTooClose && Vector3.Distance (transform.position, PlayerCar.s_instance.transform.position) > tooCloseDistance) {
+			PlayerStoppedBeingTooClose ();
+		}
 		if (thisAIState == AIState.Disabled && isReceivingInteract) {
 			ForceTowardTarget (PlayerCar.s_instance.bulldozeChildTransform.position);
 			SteerTowardTarget (PlayerCar.s_instance.bulldozeChildTransform.GetChild (0).position);
@@ -396,6 +403,7 @@ public class AIHoverCar : CarMetrics {
 					faceTarget = false;
 					thisAIState = AIState.Idle;
 				}
+
 				break;
 			case AIState.Chase:
 				MoveTowardTarget (PlayerCar.s_instance.transform.position);
@@ -426,4 +434,15 @@ public class AIHoverCar : CarMetrics {
 		}
 	}
 	#endregion
+
+	void PlayerCameTooClose () {
+		SetThrust (true, false);
+		playerIsTooClose = true;
+		numOfTimesBreachedComfortZone++;
+	}
+
+	void PlayerStoppedBeingTooClose () {
+		playerIsTooClose = false;
+		SetThrust (false, false);
+	}
 }

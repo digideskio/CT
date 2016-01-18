@@ -265,9 +265,9 @@ public class PlayerCar : CarMetrics
 	}
 
 	void OnCollisionEnter (Collision thisCollision) {
-		if (thisCollision.collider.gameObject.tag == "NPC" && currMovementState == MovementState.Target) {
-			StealGas();
-		}
+//		if (thisCollision.collider.gameObject.tag == "NPC" && currMovementState == MovementState.Target) {
+//			StealGas();
+//		}
 	}
 
 }
