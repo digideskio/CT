@@ -9,6 +9,8 @@ public class PlayerCar : CarMetrics
 {
 	[SerializeField]
 	bool debugCarPosition;
+	[SerializeField]
+	Transform debugTransform;
 	public static PlayerCar s_instance;
 	public GameObject[] m_hoverPoints;
 	Rigidbody body;
@@ -76,7 +78,7 @@ public class PlayerCar : CarMetrics
 	{
 		body = GetComponent<Rigidbody> ();
 		if (debugCarPosition) {
-			transform.position = new Vector3 (0, 10f, 0);
+			transform.position = debugTransform.position;
 		}
 		layerMask = 1 << LayerMask.NameToLayer ("Characters");
 		layerMask = ~layerMask;
@@ -222,18 +224,32 @@ public class PlayerCar : CarMetrics
 			} else {
 				body.AddForce (transform.forward * currThrust);
 				//correct rotation
-				if (Mathf.Abs (transform.rotation.eulerAngles.x) > 1f) { //need to check for 360 instead of negative
-					float negOrPosVal = (transform.rotation.eulerAngles.x < 180) ? -1f : 1f;
+				if (Mathf.Abs (transform.rotation.eulerAngles.x) > 1f) {
+					float negOrPosVal = (transform.rotation.eulerAngles.x < 180) || (transform.rotation.eulerAngles.x < 0) ? -1f : 1f;
 					transform.Rotate (negOrPosVal * 0.1f, 0, 0);
 				}
 				if (Mathf.Abs (transform.rotation.eulerAngles.z) > 1f) {
-					float negOrPosVal = (transform.rotation.eulerAngles.z < 180) ? 1f : -1f;
-					transform.Rotate (0, 0, -negOrPosVal * 0.1f);
+					float negOrPosVal = (transform.rotation.eulerAngles.z < 180) ? -1f : 1f;
+					transform.Rotate (0, 0, negOrPosVal * 0.1f);
 				}
 			}
 		}
 	}
 
+	void OnTriggerEnter (Collider other) {
+		if (other.tag == "NPC") {
+			other.GetComponent<AIHoverCar> ().isCloseToPlayer = true;
+			other.GetComponent<AIHoverCar> ().currentTarget = transform;
+
+		}
+	}
+
+	void OnTriggerExit (Collider other) {
+		if (other.tag == "NPC") {
+			other.GetComponent<AIHoverCar> ().isCloseToPlayer = false;
+			other.GetComponent<AIHoverCar> ().currentTarget = null;
+		}
+	}
 
 	void Thrust() {
 		if (!isThrusting) {

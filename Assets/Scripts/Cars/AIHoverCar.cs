@@ -12,23 +12,24 @@ public class AIHoverCar : CarMetrics {
 	protected float verticalAxisDirection = 1f;
 	protected float horizontalAxisDirection = 1f;
 	protected float strafeAxisDirection = 1f;
-	protected float m_hoverForce = 9.0f;
-	protected float m_hoverHeight = 2.0f;
-	public GameObject[] m_hoverPoints;
-	protected float faceObjectBuffer = 50f;
+	protected float hoverForce = 9.0f;
+	protected float hoverHeight = 2.0f;
+	public GameObject[] hoverPoints;
+	protected float faceObjectBuffer = 5f;
 	float accelerationModifier;
 
 	//FX
 	[SerializeField] GameObject smoke, spark, deathExplosion;
 
-	public GameObject currentTarget;
+	public Transform currentTarget;
 
 	bool accelerate, steer, strafe;
 
 	int m_layerMask;
 	int m_wallMask;
 	bool isTouchingGround;
-	
+
+
 	void Start()
 	{
 		m_body = GetComponent<Rigidbody>();
@@ -49,24 +50,27 @@ public class AIHoverCar : CarMetrics {
 		if (strafe) {
 			Strafe ();
 		}
+		if (faceTarget && thisAIState!=AIState.Disabled) {
+			FaceTarget (currentTarget.position);
+		}
 
 		#region hoverphysics
 		//HOVER PHYSICS
 		RaycastHit hit;
-		for (int i = 0; i < m_hoverPoints.Length; i++)
+		for (int i = 0; i < hoverPoints.Length; i++)
 		{
-			var hoverPoint = m_hoverPoints [i];
-			if (Physics.Raycast(hoverPoint.transform.position, -Vector3.up, out hit,m_hoverHeight, m_layerMask)) {
-				m_body.AddForceAtPosition(Vector3.up * m_hoverForce * (1.0f - (hit.distance / m_hoverHeight)), hoverPoint.transform.position);
+			var hoverPoint = hoverPoints [i];
+			if (Physics.Raycast(hoverPoint.transform.position, -Vector3.up, out hit,hoverHeight, m_layerMask)) {
+				m_body.AddForceAtPosition(Vector3.up * hoverForce * (1.0f - (hit.distance / hoverHeight)), hoverPoint.transform.position);
 				isTouchingGround = true;
 			}
 			else {
 				isTouchingGround = false;
 				if (transform.position.y > hoverPoint.transform.position.y) {
-					m_body.AddForceAtPosition(hoverPoint.transform.up * m_hoverForce, hoverPoint.transform.position);
+					m_body.AddForceAtPosition(hoverPoint.transform.up * hoverForce, hoverPoint.transform.position);
 				}
 				else {
-					m_body.AddForceAtPosition(hoverPoint.transform.up * -m_hoverForce, hoverPoint.transform.position);
+					m_body.AddForceAtPosition(hoverPoint.transform.up * -hoverForce, hoverPoint.transform.position);
 				}
 			}
 		}
@@ -161,7 +165,7 @@ public class AIHoverCar : CarMetrics {
 		//always returns positive angle value in radians
 	}
 
-	public void FaceTarget (Vector3 target) {
+	public void SteerTowardTarget (Vector3 target) {
 		//face target 
 		if (IsTargetOnRightOrLeft(target) < faceObjectBuffer && GetAngleToTarget(target) > 0.3f){
 			SetSteering(true,true);
@@ -172,6 +176,11 @@ public class AIHoverCar : CarMetrics {
 		else {
 			SetSteering(false,false);
 		}
+	}
+	public void FaceTarget(Vector3 target) {
+		transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, Quaternion.LookRotation(Vector3.RotateTowards (transform.forward, target - transform.position, .015f,.4f),Vector3.up).eulerAngles.y,transform.rotation.eulerAngles.z));
+
+//		transform.RotateAround(transform.up,Vector3.RotateTowards (transform.forward, target - transform.position, .015f,.4f));
 	}
 
 	public void MoveTowardTarget (Vector3 target) {
@@ -215,6 +224,7 @@ public class AIHoverCar : CarMetrics {
 			SetSteering (false,false);
 		}
 	}
+		
 	#endregion
 
 	#region OnCollision
@@ -354,6 +364,8 @@ public class AIHoverCar : CarMetrics {
 	public AIState thisAIState = AIState.Idle;
 	bool isReceivingInteract;
 	bool isWallInFront, isWallOnRight, isWallOnLeft;
+	bool faceTarget;
+	public bool isCloseToPlayer;
 
 	//rotate by angle logic
 	Vector3 previousForwardDirection;
@@ -364,43 +376,49 @@ public class AIHoverCar : CarMetrics {
 	private float wallDetectionDistance = 20f, wallDetectionDistanceLateral = 5f;
 	void Update()
 	{
-		switch (thisAIState) {
-		case AIState.Disabled :
-			if (isReceivingInteract) {
-				ForceTowardTarget(PlayerCar.s_instance.bulldozeChildTransform.position);
-				FaceTarget(PlayerCar.s_instance.bulldozeChildTransform.GetChild (0).position);
+		if (thisAIState == AIState.Disabled && isReceivingInteract) {
+			ForceTowardTarget (PlayerCar.s_instance.bulldozeChildTransform.position);
+			SteerTowardTarget (PlayerCar.s_instance.bulldozeChildTransform.GetChild (0).position);
+		} else {
+			switch (thisAIState) {
+			case AIState.Idle:
+				if (isCloseToPlayer) {
+					thisAIState = AIState.Face;
+				}
+				break;
+			case AIState.Face:
+				faceTarget = true;
+				if (!isCloseToPlayer) {
+					faceTarget = false;
+					thisAIState = AIState.Idle;
+				}
+				break;
+			case AIState.Chase:
+				MoveTowardTarget (PlayerCar.s_instance.transform.position);
+				SteerTowardTarget (PlayerCar.s_instance.transform.position);
+				break;
+			case AIState.Court:
+				FaceAwayFromTarget (PlayerCar.s_instance.transform.position);
+				break;
+
+			case AIState.Submission:
+				FaceAwayFromTarget (PlayerCar.s_instance.transform.position);
+				BackUpIntoTarget (PlayerCar.s_instance.transform.position);
+
+				break;
+
+			case AIState.Wander: 
+				SetTurnByAngle ();
+				if (isSteering) {
+					TurnToCompletion ();
+				}
+				DetectForWalls ();
+				if (!isSteering) {
+					SteerAwayFromWalls ();
+				}
+				break;
+
 			}
-			break;
-		case AIState.Idle :
-			break;
-		case AIState.Face :
-			FaceTarget(PlayerCar.s_instance.transform.position);
-			break;
-		case AIState.Chase :
-			MoveTowardTarget(PlayerCar.s_instance.transform.position);
-			FaceTarget(PlayerCar.s_instance.transform.position);
-			break;
-		case AIState.Court :
-			FaceAwayFromTarget(PlayerCar.s_instance.transform.position);
-			break;
-
-		case AIState.Submission :
-			FaceAwayFromTarget(PlayerCar.s_instance.transform.position);
-			BackUpIntoTarget(PlayerCar.s_instance.transform.position);
-
-			break;
-
-		case AIState.Wander: 
-			SetTurnByAngle ();
-			if (isSteering) {
-				TurnToCompletion ();
-			}
-			DetectForWalls ();
-			if (!isSteering) {
-				SteerAwayFromWalls ();
-			}
-			break;
-
 		}
 	}
 	#endregion
