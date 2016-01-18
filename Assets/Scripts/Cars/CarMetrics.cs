@@ -25,5 +25,7 @@ public class CarMetrics : MonoBehaviour {
 
 	}
 
-
+	public void FaceTarget(Vector3 target) {
+		transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, Quaternion.LookRotation(Vector3.RotateTowards (transform.forward, target - transform.position, .015f,.4f),Vector3.up).eulerAngles.y,transform.rotation.eulerAngles.z));
+	}
 }

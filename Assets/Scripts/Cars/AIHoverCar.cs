@@ -18,9 +18,10 @@ public class AIHoverCar : CarMetrics {
 	protected float faceObjectBuffer = 5f;
 	float accelerationModifier;
 
+
 	//FX
 	[SerializeField] GameObject smoke, spark, deathExplosion;
-
+	[SerializeField] Material blackened;
 	public Transform currentTarget;
 
 	bool accelerate, steer, strafe;
@@ -177,11 +178,7 @@ public class AIHoverCar : CarMetrics {
 			SetSteering(false,false);
 		}
 	}
-	public void FaceTarget(Vector3 target) {
-		transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, Quaternion.LookRotation(Vector3.RotateTowards (transform.forward, target - transform.position, .015f,.4f),Vector3.up).eulerAngles.y,transform.rotation.eulerAngles.z));
 
-//		transform.RotateAround(transform.up,Vector3.RotateTowards (transform.forward, target - transform.position, .015f,.4f));
-	}
 
 	public void MoveTowardTarget (Vector3 target) {
 		//use x/z coordinates to tell where target is with regards to car
@@ -282,6 +279,13 @@ public class AIHoverCar : CarMetrics {
 			Instantiate (deathExplosion, transform.position, Quaternion.identity);
 			GameObject smokeObj = Instantiate (smoke, transform.position, Quaternion.identity)as GameObject;
 			smokeObj.transform.SetParent (gameObject.transform);
+			foreach (MeshRenderer x in GetComponentsInChildren<MeshRenderer>()) {
+				Material[] mats = new Material[x.materials.Length];
+				for (int i = 0; i < x.materials.Length; i++) { 
+					mats[i] = blackened;
+				}
+				x.materials = mats;
+			}
 			thisAIState = AIState.Disabled;
 			foreach (Light x in tailLights) {
 				x.enabled = false;

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerCar : CarMetrics
 {
+	#region variables
 	[SerializeField]
 	bool debugCarPosition;
 	[SerializeField]
@@ -32,11 +33,8 @@ public class PlayerCar : CarMetrics
 	public float idleGasLossRate, movingGasLossRate, currentGasLossRate;
 	bool isAccelerating = false;
 	bool isMovementDisabled = false;
-
-
-	//gameover
-
-
+	bool isTargeting;
+	public Transform currentTarget;
 
 	public Transform gameoverCam;
 	bool lerpGameOverSwitch;
@@ -64,7 +62,7 @@ public class PlayerCar : CarMetrics
 	public enum MovementState {Drive, Target, Submit, OutOfGas};
 	public MovementState currMovementState = MovementState.Drive;
 	public bool isCharged, isThrusting;
-
+	#endregion
 	void Awake() {
 		if (s_instance == null) {
 			s_instance = this;
@@ -137,11 +135,6 @@ public class PlayerCar : CarMetrics
 		}
 		currStrafe = strafeAxis * strafeAcl;
 
-
-
-		//TODO add in the toggle weapons mode
-
-
 		//__________________________________________INTERACTION__________________________________________
 
 		if (inputDevice.Action1.WasPressed) {
@@ -152,21 +145,20 @@ public class PlayerCar : CarMetrics
 			PlayerInteractEnd();
 		}
 
-		if (inputDevice.Action3.WasPressed) {
+		if (inputDevice.LeftTrigger.WasPressed) {
 			currMovementState = MovementState.Target;
 			BeginTarget();
+			isTargeting = true;
 			Camera.main.GetComponent<HoverFollowCam>().thisCameraMode = HoverFollowCam.CameraMode.targetMode;
 		}
-		if (inputDevice.Action3.WasReleased) {
+		if (inputDevice.LeftTrigger.WasReleased) {
 			currMovementState = MovementState.Drive;
 			EndTarget();
+			isTargeting = false;
 			Camera.main.GetComponent<HoverFollowCam>().thisCameraMode = HoverFollowCam.CameraMode.normalMode;
-
 		}
 
-	
-
-		if (inputDevice.Action4.WasPressed) {
+		if (inputDevice.RightTrigger.WasPressed) {
 			Thrust ();
 		}
 
@@ -179,7 +171,6 @@ public class PlayerCar : CarMetrics
 			float percentage = timeElapsed/gameOverCamLerpDuration;
 			Camera.main.transform.position = Vector3.Lerp(lerpStartPosition, gameoverCam.position, percentage);
 			Camera.main.transform.LookAt(transform.position);
-			//lerp gameover camera
 			 
 		}
 
@@ -217,6 +208,10 @@ public class PlayerCar : CarMetrics
 			body.AddForce (transform.right * currStrafe);
 		}
 
+		if (isTargeting && currentTarget!=null) {
+			FaceTarget (currentTarget.position);
+		}
+
 		if (currMovementState == MovementState.Drive) {
 			// Forward
 			if (Mathf.Abs (currThrust) > 0 && isTouchingGround) {
@@ -240,7 +235,7 @@ public class PlayerCar : CarMetrics
 		if (other.tag == "NPC") {
 			other.GetComponent<AIHoverCar> ().isCloseToPlayer = true;
 			other.GetComponent<AIHoverCar> ().currentTarget = transform;
-
+			currentTarget = other.transform;
 		}
 	}
 
@@ -248,6 +243,7 @@ public class PlayerCar : CarMetrics
 		if (other.tag == "NPC") {
 			other.GetComponent<AIHoverCar> ().isCloseToPlayer = false;
 			other.GetComponent<AIHoverCar> ().currentTarget = null;
+			currentTarget = null;
 		}
 	}
 
