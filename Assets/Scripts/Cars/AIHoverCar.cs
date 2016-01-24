@@ -19,7 +19,7 @@ public class AIHoverCar : CarMetrics {
 	float accelerationModifier;
 	float tooCloseDistance = 9f;
 	bool playerIsTooClose;
-	int numOfTimesBreachedComfortZone;
+	int angerCounter;
 
 	//FX
 	[SerializeField] GameObject smoke, spark, deathExplosion;
@@ -381,12 +381,7 @@ public class AIHoverCar : CarMetrics {
 	private float wallDetectionDistance = 20f, wallDetectionDistanceLateral = 5f;
 	void Update()
 	{
-		if (isCloseToPlayer && !playerIsTooClose && Vector3.Distance (transform.position, PlayerCar.s_instance.transform.position) < tooCloseDistance) {
-			PlayerCameTooClose ();
-		}
-		else if (playerIsTooClose && Vector3.Distance (transform.position, PlayerCar.s_instance.transform.position) > tooCloseDistance) {
-			PlayerStoppedBeingTooClose ();
-		}
+		
 		if (thisAIState == AIState.Disabled && isReceivingInteract) {
 			ForceTowardTarget (PlayerCar.s_instance.bulldozeChildTransform.position);
 			SteerTowardTarget (PlayerCar.s_instance.bulldozeChildTransform.GetChild (0).position);
@@ -394,12 +389,21 @@ public class AIHoverCar : CarMetrics {
 			switch (thisAIState) {
 			case AIState.Idle:
 				if (isCloseToPlayer) {
+					//TODO if is close to player for too long of time, start getting mad
 					thisAIState = AIState.Face;
+					PlayerEnteredLOS ();
 				}
 				break;
 			case AIState.Face:
+				if (isCloseToPlayer && !playerIsTooClose && Vector3.Distance (transform.position, PlayerCar.s_instance.transform.position) < tooCloseDistance) {
+					PlayerCameTooClose ();
+				}
+				else if (playerIsTooClose && Vector3.Distance (transform.position, PlayerCar.s_instance.transform.position) > tooCloseDistance) {
+					PlayerStoppedBeingTooClose ();
+				}
 				faceTarget = true;
 				if (!isCloseToPlayer) {
+					PlayerLeftLOS ();
 					faceTarget = false;
 					thisAIState = AIState.Idle;
 				}
@@ -435,10 +439,19 @@ public class AIHoverCar : CarMetrics {
 	}
 	#endregion
 
+	void PlayerEnteredLOS () {
+		BarkManager.s_instance.Bark (BarkManager.s_instance.m_enterLOSBarksArray);
+	}
+
+	void PlayerLeftLOS () {
+
+	}
+
 	void PlayerCameTooClose () {
 		SetThrust (true, false);
 		playerIsTooClose = true;
-		numOfTimesBreachedComfortZone++;
+		angerCounter++;
+		BarkManager.s_instance.Bark (BarkManager.s_instance.m_tooCloseBarksArray);
 	}
 
 	void PlayerStoppedBeingTooClose () {
