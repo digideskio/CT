@@ -16,6 +16,5 @@ public class DialogueElement
 {
 	public string dialogueText;
 	public storyCharacter characterName;
-	public AudioClip dialogueVO;
 	public float dialogueTextDisplayTime;
 }

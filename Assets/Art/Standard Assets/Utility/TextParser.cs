@@ -13,8 +13,8 @@ public static class TextParser {
 		//take each line, split by comma, and then populate list at that index
 		for (int i=0; i<arrayOfLines.Length; i++) {
 			string[] arrayOfStrings = arrayOfLines[i].Split(","[0]);
-			Conversation tempPOS =  new Conversation(arrayOfStrings[0],float.Parse(arrayOfStrings[1]));
-			arrayPointOfSail.Add(tempPOS);
+//			Conversation tempPOS =  new Conversation(arrayOfStrings[0],float.Parse(arrayOfStrings[1]));
+//			arrayPointOfSail.Add(tempPOS);
 		}
 		return arrayPointOfSail;
 	}
