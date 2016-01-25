@@ -390,8 +390,8 @@ public class AIHoverCar : CarMetrics {
 			case AIState.Idle:
 				if (isCloseToPlayer) {
 					//TODO if is close to player for too long of time, start getting mad
-					thisAIState = AIState.Face;
 					PlayerEnteredLOS ();
+					thisAIState = AIState.Face;
 				}
 				break;
 			case AIState.Face:
