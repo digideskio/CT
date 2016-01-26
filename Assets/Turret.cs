@@ -28,7 +28,7 @@ public class Turret : MonoBehaviour {
 	}
 		
 	public void TurretFaceTarget(Vector3 target) {
-		if (Mathf.Abs(transform.rotation.eulerAngles.x) < 30f) {
+		if (Vector3.Angle (new Vector3 (target.x - transform.position.x, transform.position.y, target.z - transform.position.z), target - transform.position) < 60f) {
 			transform.rotation = Quaternion.LookRotation (Vector3.RotateTowards (transform.forward, target - transform.position, .015f, .4f), Vector3.up);
 
 		} else { //just rotate around y
