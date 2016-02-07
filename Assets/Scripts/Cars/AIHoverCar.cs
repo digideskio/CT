@@ -194,9 +194,7 @@ public class AIHoverCar : CarMetrics {
 		//move directly toward without steering (for use when getting tractor beamed)
 
 		if (Vector3.Distance(transform.position, target) > 1f) {
-			print (target + "target");
 			Vector3 directionTowardBulldozePosition = target-transform.position;
-			Debug.DrawRay(transform.position,target,Color.blue);
 
 			m_body.AddForce(new Vector3(directionTowardBulldozePosition.x,0f,directionTowardBulldozePosition.z)*bullDozeStrength);
 		}

@@ -6,17 +6,15 @@ public class DialogueManager : MonoBehaviour
 {
 	// Input ID for input
 	[HideInInspector]
-	public int playerInputID = 0;
-
 	private int currentDialogueIndex = 0;
 	private Dialogue currentDialogue;
 
 	public GameObject dialogueLayout;
 	public Text characterName, dialogueText;
-	public Image portrait;
+//	public Image portrait;
 
 	// Must be referenced by index i.e. ulfrik = 0, brunhilde = 1
-	public List<Sprite> characterPortraits;
+//	public List<Sprite> characterPortraits;
 
 	public void initializeDialogueGUI (Dialogue newDialogue) {
 		currentDialogue = newDialogue;
@@ -47,29 +45,8 @@ public class DialogueManager : MonoBehaviour
 		dialogueLayout.SetActive(false);
 	}
 
-	private void setCharacterNameAndPortrait(storyCharacter characterEnum) {
-		switch (characterEnum) {
-		case storyCharacter.Ulfrik:
-			characterName.text = "Ulfrik";
-			portrait.sprite = characterPortraits[(int)characterEnum];
-			break;
-		case storyCharacter.Brunhilde:
-			characterName.text = "Brunhilde";
-			portrait.sprite = characterPortraits[(int)characterEnum];
-			break;
-		case storyCharacter.Hel:
-			characterName.text = "Hel";
-			portrait.sprite = characterPortraits[(int)characterEnum];
-			break;
-		case storyCharacter.Batking:
-			characterName.text = "Batking";
-			portrait.sprite = characterPortraits[(int)characterEnum];
-			break;
-		default:
-			characterName.text = "None";
-			portrait.sprite = null;
-			break;
-		}
+	private void setCharacterNameAndPortrait(StoryCharacter characterEnum) {
+		
 	}
 
 	void Update () {
