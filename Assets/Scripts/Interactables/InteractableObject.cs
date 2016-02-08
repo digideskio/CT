@@ -8,18 +8,31 @@ public class InteractableObject : MonoBehaviour {
 	protected void OnEnable() {
 		PlayerCar.PlayerInteractStart+=ReceiveInteract;
 		PlayerCar.PlayerInteractEnd+=ReceiveDeinteract;
+		PlayerCar.BeginTarget += ReceiveTarget;
+		PlayerCar.EndTarget += ReceiveUntarget;
+
 	}
 
 	protected void OnDisable() {
 		PlayerCar.PlayerInteractStart-=ReceiveInteract;
 		PlayerCar.PlayerInteractEnd-=ReceiveDeinteract;
+		PlayerCar.BeginTarget -= ReceiveTarget;
+		PlayerCar.EndTarget -= ReceiveUntarget;
 	}
 
-	protected void ReceiveInteract () {
+	public virtual void ReceiveInteract () {
 		isReceivingInteract = true;
 	}
 
-	protected void ReceiveDeinteract () {
+	public virtual void ReceiveDeinteract () {
+		isReceivingInteract = false;
+
+	}
+	public virtual void ReceiveTarget () {
+		isReceivingInteract = true;
+	}
+
+	public virtual void ReceiveUntarget () {
 		isReceivingInteract = false;
 
 	}

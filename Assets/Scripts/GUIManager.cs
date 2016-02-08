@@ -45,13 +45,13 @@ public class GUIManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		EnableInventory ();
-		if (subtitleTimer > Time.time - subtitleTimerStart) {
-			subtitleText.enabled = true;
-		}
-		else {
-			subtitleText.enabled = false;
-		}
-			
+//		if (subtitleTimer > Time.time - subtitleTimerStart) {
+//			subtitleText.enabled = true;
+//		}
+//		else {
+//			subtitleText.enabled = false;
+//		}
+//			
 	}
 	
 	// Update is called once per frame
@@ -83,12 +83,12 @@ public class GUIManager : MonoBehaviour {
 
 		}
 
-		if (subtitleTimer > 0) {
-			subtitleText.enabled = true;
-			subtitleTimer -= Time.deltaTime;
-		} else if (subtitleTimer <= 0) {
-			subtitleText.enabled = false;
-		}
+//		if (subtitleTimer > 0) {
+//			subtitleText.enabled = true;
+//			subtitleTimer -= Time.deltaTime;
+//		} else if (subtitleTimer <= 0) {
+//			subtitleText.enabled = false;
+//		}
 
 		if (PlayerCar.s_instance.currMovementState == PlayerCar.MovementState.OutOfGas) {
 			gameover.gameObject.SetActive(true);
