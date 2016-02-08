@@ -28,7 +28,7 @@ public class DialogueManager : InteractableObject
 	}
 
 	private void displayNextDialogueElement() {
-		if(currentDialogue.DialogItems.Count > currentDialogueIndex+1) {
+		if(currentDialogue.DialogItems.Count > currentDialogueIndex+1	) {
 			currentDialogueIndex++;
 			displayCurrentDialogueElement();
 		}
