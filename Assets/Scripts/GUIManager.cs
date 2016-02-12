@@ -83,12 +83,12 @@ public class GUIManager : MonoBehaviour {
 
 		}
 
-//		if (subtitleTimer > 0) {
-//			subtitleText.enabled = true;
-//			subtitleTimer -= Time.deltaTime;
-//		} else if (subtitleTimer <= 0) {
-//			subtitleText.enabled = false;
-//		}
+		if (subtitleTimer > 0) {
+			subtitleText.enabled = true;
+			subtitleTimer -= Time.deltaTime;
+		} else if (subtitleTimer <= 0) {
+			subtitleText.enabled = false;
+		}
 
 		if (PlayerCar.s_instance.currMovementState == PlayerCar.MovementState.OutOfGas) {
 			gameover.gameObject.SetActive(true);

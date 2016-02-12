@@ -20,10 +20,9 @@ public class AIHoverCar : CarMetrics {
 	float tooCloseDistance = 9f;
 	bool playerIsTooClose;
 	int angerCounter;
-
+	[SerializeField int angerCounterUntilFight;
 	//FX
 	[SerializeField] GameObject smoke, spark, deathExplosion;
-	[SerializeField] Material blackened;
 	public Transform currentTarget;
 
 	bool accelerate, steer, strafe;
@@ -278,23 +277,16 @@ public class AIHoverCar : CarMetrics {
 			Instantiate (deathExplosion, transform.position, Quaternion.identity);
 			GameObject smokeObj = Instantiate (smoke, transform.position, Quaternion.identity)as GameObject;
 			smokeObj.transform.SetParent (gameObject.transform);
-			foreach (MeshRenderer x in GetComponentsInChildren<MeshRenderer>()) {
-				Material[] mats = new Material[x.materials.Length];
-				for (int i = 0; i < x.materials.Length; i++) { 
-					mats[i] = blackened;
-				}
-				x.materials = mats;
-			}
+
 			thisAIState = AIState.Disabled;
-			foreach (Light x in tailLights) {
-				x.enabled = false;
-			}
-			foreach (Light y in headLights) {
-				y.enabled = false;
-			}
+			ToggleLights (false);
+			BlackenCarMaterials ();
 		}
 	}
 	#region WanderStateFunctions
+
+
+
 	void DetectForWalls () {
 		//ray cast forward, right and left
 		RaycastHit hitRight, hitLeft, hitForward;
@@ -361,7 +353,7 @@ public class AIHoverCar : CarMetrics {
 	//____________________________________________________STATE MACHINE____________________________________________________
 
 	#region StateMachine
-	public enum AIState {Idle, Face, Submission, Flee, Wander, Suicide, Follow, Court, Chase, Disabled, Report, Explore, Survive, Hunt}; 
+	public enum AIState {Idle, Face, Submission, Flee, Wander, Suicide, Follow, Court, Chase, Disabled, Report, Explore, Survive, Hunt, Fight}; 
 	public enum CarType {Thief, Mechanic, Civ};
 	public CarType thisCarType;
 	public AIState thisAIState = AIState.Idle;
@@ -449,7 +441,12 @@ public class AIHoverCar : CarMetrics {
 		SetThrust (true, false);
 		playerIsTooClose = true;
 		angerCounter++;
-		BarkManager.s_instance.Bark (BarkManager.s_instance.m_tooCloseBarksArray);
+		if (angerCounter > 2) {
+			//go intoFight mode
+		} else {
+			BarkManager.s_instance.Bark (BarkManager.s_instance.m_tooCloseBarksArray);
+		}
+
 	}
 
 	void PlayerStoppedBeingTooClose () {
