@@ -4,8 +4,11 @@ using System.Collections;
 public class Turret : MonoBehaviour {
 	public enum TurretStates {Inactive, LookingAtPlayer, ShootingAtPlayer};
 	public TurretStates currState = TurretStates.Inactive;
+	[SerializeField] GameObject bullet;
 	public bool killPlayer, lookAtPlayer;
 	[SerializeField] float LOS = 100f;
+	[SerializeField] Transform exitPoint1, exitPoint2;
+	float timeBetweenEachShot = .1f, shotTimer = 0;
 	// Use this for initialization
 
 	
@@ -22,7 +25,10 @@ public class Turret : MonoBehaviour {
 			if (Vector3.Distance (PlayerCar.s_instance.transform.position, gameObject.transform.position) > LOS) {
 				currState = TurretStates.Inactive;
 			}
-			TurretFaceTarget (PlayerCar.s_instance.transform.position);
+			TurretFaceTarget (new Vector3(PlayerCar.s_instance.transform.position.x,PlayerCar.s_instance.transform.position.y+.5f,PlayerCar.s_instance.transform.position.z));
+			if (killPlayer) {
+				ShootAtPlayer ();
+			}
 			break;
 		}
 	}
@@ -36,6 +42,22 @@ public class Turret : MonoBehaviour {
 				Quaternion.LookRotation (Vector3.RotateTowards (transform.forward, target - transform.position, .015f, .4f), Vector3.up).eulerAngles.y,
 				transform.rotation.eulerAngles.z));
 		}
+		Debug.DrawRay (transform.position, transform.forward, Color.cyan);
+	}
+
+	void ShootAtPlayer() {
+		shotTimer += Time.deltaTime;
+		if (shotTimer > timeBetweenEachShot) {
+			print ("SHOOT once");
+
+			Instantiate (bullet, exitPoint1.position, transform.rotation);
+			Instantiate (bullet, exitPoint2.position, transform.rotation);
+			shotTimer = 0;
+		}
+	}
+
+	public void TriggerFightState () {
+		killPlayer = true;
 	}
 
 

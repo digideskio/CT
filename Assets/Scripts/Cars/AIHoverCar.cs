@@ -20,7 +20,11 @@ public class AIHoverCar : CarMetrics {
 	float tooCloseDistance = 9f;
 	bool playerIsTooClose;
 	int angerCounter;
-	[SerializeField] int angerCounterUntilFight;
+
+	[SerializeField] GameObject[] receiversOfMessageSwitchToFightState;
+
+
+	[SerializeField] int angerCounterUntilFight = 3;
 	//FX
 	[SerializeField] GameObject smoke, spark, deathExplosion;
 	public Transform currentTarget;
@@ -270,6 +274,7 @@ public class AIHoverCar : CarMetrics {
 
 	#endregion
 	void TakeHitFromThrust (Vector3 pointOfContact) {
+		SwitchToFightState ();
 		Instantiate(spark,pointOfContact,Quaternion.identity);
 	}
 	public override void Die () {
@@ -423,8 +428,14 @@ public class AIHoverCar : CarMetrics {
 					SteerAwayFromWalls ();
 				}
 				break;
+			case AIState.Fight:
+				FaceAwayFromTarget (PlayerCar.s_instance.transform.position);
+				SetThrust (true, true);
+
+				break;
 
 			}
+
 		}
 	}
 	#endregion
@@ -441,12 +452,19 @@ public class AIHoverCar : CarMetrics {
 		SetThrust (true, false);
 		playerIsTooClose = true;
 		angerCounter++;
-		if (angerCounter > 2) {
-			//go intoFight mode
+		if (angerCounter >= 3) {
+			SwitchToFightState ();
 		} else {
 			BarkManager.s_instance.Bark (BarkManager.s_instance.m_tooCloseBarksArray);
 		}
 
+	}
+
+	void SwitchToFightState () {
+		thisAIState = AIState.Fight;
+		foreach (GameObject GO in receiversOfMessageSwitchToFightState) {
+			GO.SendMessage ("TriggerFightState");
+		}
 	}
 
 	void PlayerStoppedBeingTooClose () {
