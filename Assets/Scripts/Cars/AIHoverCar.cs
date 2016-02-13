@@ -20,7 +20,7 @@ public class AIHoverCar : CarMetrics {
 	float tooCloseDistance = 9f;
 	bool playerIsTooClose;
 	int angerCounter;
-	[SerializeField int angerCounterUntilFight;
+	[SerializeField] int angerCounterUntilFight;
 	//FX
 	[SerializeField] GameObject smoke, spark, deathExplosion;
 	public Transform currentTarget;
