@@ -4,18 +4,14 @@ using InControl;
 
 public class AIHoverCar : CarMetrics {
 
-	Rigidbody m_body;
-	protected float bullDozeStrength = 1000f;
-	public float accelerateStrength = 30000f;
-	protected float turnStrength = 5000f;
-	protected float strafeStrength = 10000f;
-	protected float verticalAxisDirection = 1f;
-	protected float horizontalAxisDirection = 1f;
-	protected float strafeAxisDirection = 1f;
-	protected float hoverForce = 9.0f;
-	protected float hoverHeight = 2.0f;
-	public GameObject[] hoverPoints;
-	protected float faceObjectBuffer = 5f;
+	float bullDozeStrength = 1000f;
+	[SerializeField] float accelerateStrength = 30000f;
+	[SerializeField] float turnStrength = 5000f;
+	[SerializeField] float strafeStrength = 10000f;
+	float verticalAxisDirection = 1f;
+	float horizontalAxisDirection = 1f;
+	float strafeAxisDirection = 1f;
+	float faceObjectBuffer = 5f;
 	float accelerationModifier;
 	float tooCloseDistance = 9f;
 	bool playerIsTooClose;
@@ -31,21 +27,17 @@ public class AIHoverCar : CarMetrics {
 
 	bool accelerate, steer, strafe;
 
-	int m_layerMask;
 	int m_wallMask;
-	bool isTouchingGround;
 
 
-	void Start()
+	new void Start()
 	{
-		m_body = GetComponent<Rigidbody>();
-		m_layerMask = 1 << LayerMask.NameToLayer("Characters");
-		m_layerMask = ~m_layerMask;
+		base.Start ();
 
 		m_wallMask = 1 << LayerMask.NameToLayer("Walls");
 	}
 		
-	void FixedUpdate()
+	new void FixedUpdate()
 	{
 		if (accelerate) {
 			Accelerate();
@@ -59,28 +51,8 @@ public class AIHoverCar : CarMetrics {
 		if (faceTarget && thisAIState!=AIState.Disabled && currentTarget!=null) {
 			FaceTarget (currentTarget.position);
 		}
+		base.FixedUpdate ();
 
-		#region hoverphysics
-		//HOVER PHYSICS
-		RaycastHit hit;
-		for (int i = 0; i < hoverPoints.Length; i++)
-		{
-			var hoverPoint = hoverPoints [i];
-			if (Physics.Raycast(hoverPoint.transform.position, -Vector3.up, out hit,hoverHeight, m_layerMask)) {
-				m_body.AddForceAtPosition(Vector3.up * hoverForce * (1.0f - (hit.distance / hoverHeight)), hoverPoint.transform.position);
-				isTouchingGround = true;
-			}
-			else {
-				isTouchingGround = false;
-				if (transform.position.y > hoverPoint.transform.position.y) {
-					m_body.AddForceAtPosition(hoverPoint.transform.up * hoverForce, hoverPoint.transform.position);
-				}
-				else {
-					m_body.AddForceAtPosition(hoverPoint.transform.up * -hoverForce, hoverPoint.transform.position);
-				}
-			}
-		}
-		#endregion
 	}
 
 	#region movementFunctions

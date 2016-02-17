@@ -13,11 +13,7 @@ public class PlayerCar : CarMetrics
 	[SerializeField]
 	Transform debugTransform;
 	public static PlayerCar s_instance;
-	public GameObject[] m_hoverPoints;
-	Rigidbody body;
-	float deadZone = 0.1f;
-	public float hoverForce = 3000.0f;
-	public float hoverHeight = 1.0f;
+
 	public float forwardAcl = 30000.0f;
 	public float backwardAcl = 15000.0f;
 	public float strafeAcl = 5000.0f;
@@ -28,8 +24,6 @@ public class PlayerCar : CarMetrics
 	float thrustCoolDown = 1f;
 	float currTurn = 0.0f;
 	float currStrafe;
-	int layerMask;
-	bool isTouchingGround;
 	public float idleGasLossRate, movingGasLossRate, currentGasLossRate;
 	bool isAccelerating = false;
 	bool isMovementDisabled = false;
@@ -62,8 +56,11 @@ public class PlayerCar : CarMetrics
 	public enum MovementState {Drive, Target, Submit, OutOfGas};
 	public MovementState currMovementState = MovementState.Drive;
 	public bool isCharged, isThrusting;
+
+
 	#endregion
 	void Awake() {
+
 		if (s_instance == null) {
 			s_instance = this;
 		}
@@ -72,14 +69,13 @@ public class PlayerCar : CarMetrics
 		}
 	}
 
-	void Start ()
+	new void Start ()
 	{
-		body = GetComponent<Rigidbody> ();
+		base.Start ();
 		if (debugCarPosition) {
 			transform.position = debugTransform.position;
 		}
-		layerMask = 1 << LayerMask.NameToLayer ("Characters");
-		layerMask = ~layerMask;
+
 	}
 	
 	void Update ()
@@ -180,32 +176,17 @@ public class PlayerCar : CarMetrics
 		gameOverCamLerpTimer = Time.time;
 		lerpGameOverSwitch = true;
 	}
-	void FixedUpdate ()
+	new void FixedUpdate ()
 	{
-		RaycastHit hit;
-		for (int i = 0; i < m_hoverPoints.Length; i++) {
-			var hoverPoint = m_hoverPoints [i];
-			if (Physics.Raycast (hoverPoint.transform.position, -Vector3.up, out hit, hoverHeight, layerMask)) {
-				body.AddForceAtPosition (Vector3.up * hoverForce * (1.0f - (hit.distance / hoverHeight)), hoverPoint.transform.position);
-				isTouchingGround = true;
-			} else {
-				isTouchingGround = false;
-				
-				if (transform.position.y > hoverPoint.transform.position.y) {
-					body.AddForceAtPosition (hoverPoint.transform.up * hoverForce, hoverPoint.transform.position);
-				} else {
-					body.AddForceAtPosition (hoverPoint.transform.up * -hoverForce, hoverPoint.transform.position);
-				}
-			}
-		}
+		base.FixedUpdate ();
 		// Turn
 		if (currTurn != 0 && !isMovementDisabled) {
-			body.AddRelativeTorque (Vector3.up * currTurn * turnStrength);
+			m_body.AddRelativeTorque (Vector3.up * currTurn * turnStrength);
 		}
 
 
 		if (currStrafe != 0 && !isMovementDisabled) {
-			body.AddForce (transform.right * currStrafe);
+			m_body.AddForce (transform.right * currStrafe);
 		}
 
 		if (isTargeting && currentTarget!=null) {
@@ -215,9 +196,9 @@ public class PlayerCar : CarMetrics
 		if (currMovementState == MovementState.Drive) {
 			// Forward
 			if (Mathf.Abs (currThrust) > 0 && isTouchingGround) {
-				body.AddForce (transform.forward * currThrust);
+				m_body.AddForce (transform.forward * currThrust);
 			} else {
-				body.AddForce (transform.forward * currThrust);
+				m_body.AddForce (transform.forward * currThrust);
 				//correct rotation
 				if (Mathf.Abs (transform.rotation.eulerAngles.x) > 1f) {
 					float negOrPosVal = (transform.rotation.eulerAngles.x < 180) || (transform.rotation.eulerAngles.x < 0) ? -1f : 1f;
@@ -255,7 +236,7 @@ public class PlayerCar : CarMetrics
 	}
 
 	IEnumerator IsThrusting () {
-		body.AddForce (transform.forward * thrustForce);
+		m_body.AddForce (transform.forward * thrustForce);
 		GUIManager.s_instance.thrustSlider.value = thrustCoolDown;
 		yield return new WaitForSeconds(thrustCoolDown);
 		isThrusting = false;

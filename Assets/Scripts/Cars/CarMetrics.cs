@@ -11,11 +11,24 @@ public class CarMetrics : MonoBehaviour {
 	public float maxReputation = 50f;
 	public float currentStamina = 0f;
 	public float maxStamina = 100f;
+
 	public Light[] headLights;
 	public Light[] tailLights;
-	[SerializeField] protected Material blackened;
 
-	
+
+	[SerializeField] protected Material blackened;
+	[SerializeField] protected Transform[] m_hoverPoints;
+
+	protected Rigidbody m_body;
+	protected bool isTouchingGround;
+
+	protected float deadZone = 0.1f;
+	protected float hoverForce = 3000.0f;
+	protected float hoverHeight = 1.0f;
+
+	protected int m_layerMask;
+
+
 	public void TakeDamage(float x) {
 		currentHealth -= x;
 		if (currentHealth <= 0) {
@@ -25,6 +38,12 @@ public class CarMetrics : MonoBehaviour {
 
 	public virtual void Die () {
 
+	}
+
+	protected void Start() {
+		m_body = GetComponent<Rigidbody> ();
+		m_layerMask = 1 << LayerMask.NameToLayer ("Characters");
+		m_layerMask = ~m_layerMask;
 	}
 
 	public void FaceTarget(Vector3 target) {
@@ -47,6 +66,29 @@ public class CarMetrics : MonoBehaviour {
 		}
 		foreach (Light y in headLights) {
 			y.enabled = isOn;
+		}
+	}
+
+	protected void FixedUpdate () {
+		HoverPhysics ();
+	}
+
+	void HoverPhysics() {
+		RaycastHit hit;
+		for (int i = 0; i < m_hoverPoints.Length; i++) {
+			Transform hoverPoint = m_hoverPoints [i];
+			if (Physics.Raycast (hoverPoint.transform.position, -Vector3.up, out hit, hoverHeight, m_layerMask)) {
+				m_body.AddForceAtPosition (Vector3.up * hoverForce * (1.0f - (hit.distance / hoverHeight)), hoverPoint.transform.position);
+				isTouchingGround = true;
+			} else {
+				isTouchingGround = false;
+
+				if (transform.position.y > hoverPoint.transform.position.y) {
+					m_body.AddForceAtPosition (hoverPoint.transform.up * hoverForce, hoverPoint.transform.position);
+				} else {
+					m_body.AddForceAtPosition (hoverPoint.transform.up * -hoverForce, hoverPoint.transform.position);
+				}
+			}
 		}
 	}
 }
