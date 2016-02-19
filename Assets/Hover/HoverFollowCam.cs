@@ -6,7 +6,7 @@ public class HoverFollowCam : MonoBehaviour
 	public Transform player, camPos;
 	int layerMask;
 	float camDistanceToCamPos;
-	float smoothRate = 8f;
+	public float smoothRate = 8f;
 	float verticalLookOffset = 3f;
 	private Vector3 refVelocity = Vector3.zero;
 	public enum CameraMode {normalMode, targetMode, aimMode};
@@ -25,7 +25,6 @@ public class HoverFollowCam : MonoBehaviour
 	{
 		transform.LookAt(new Vector3(player.position.x, player.position.y+verticalLookOffset, player.position.z));
 
-//		transform.position = Vector3.Slerp(
 
 	}
 

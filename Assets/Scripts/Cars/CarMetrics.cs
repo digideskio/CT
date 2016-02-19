@@ -11,6 +11,7 @@ public class CarMetrics : MonoBehaviour {
 	public float maxReputation = 50f;
 	public float currentStamina = 0f;
 	public float maxStamina = 100f;
+	float fakeGravityForce;
 
 	public Light[] headLights;
 	public Light[] tailLights;

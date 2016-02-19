@@ -19,7 +19,6 @@ public class AIHoverCar : CarMetrics {
 
 	[SerializeField] GameObject[] receiversOfMessageSwitchToFightState;
 
-
 	[SerializeField] int angerCounterUntilFight = 3;
 	//FX
 	[SerializeField] GameObject smoke, spark, deathExplosion;
@@ -302,7 +301,6 @@ public class AIHoverCar : CarMetrics {
 			SetSteering (true, false);
 		} else if (isWallOnRight) {
 			SetSteering (true, true);
-
 		} else {
 			SetSteering (false, false);
 		}
