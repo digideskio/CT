@@ -206,14 +206,6 @@ public class PlayerCar : CarMetrics
 			} else {
 				m_body.AddForce (transform.forward * currThrust);
 				//correct rotation
-				if (Mathf.Abs (transform.rotation.eulerAngles.x) > 1f) {
-					float negOrPosVal = (transform.rotation.eulerAngles.x < 180) || (transform.rotation.eulerAngles.x < 0) ? -1f : 1f;
-					transform.Rotate (negOrPosVal * 0.1f, 0, 0);
-				}
-				if (Mathf.Abs (transform.rotation.eulerAngles.z) > 1f) {
-					float negOrPosVal = (transform.rotation.eulerAngles.z < 180) ? -1f : 1f;
-					transform.Rotate (0, 0, negOrPosVal * 0.1f);
-				}
 			}
 		}
 	}

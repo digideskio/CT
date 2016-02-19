@@ -74,6 +74,17 @@ public class CarMetrics : MonoBehaviour {
 		HoverPhysics ();
 	}
 
+	protected void StabilizeMidAir () {
+		if (Mathf.Abs (transform.rotation.eulerAngles.x) > 1f) {
+			float negOrPosVal = (transform.rotation.eulerAngles.x < 180) || (transform.rotation.eulerAngles.x < 0) ? -1f : 1f;
+			transform.Rotate (negOrPosVal * 0.1f, 0, 0);
+		}
+		if (Mathf.Abs (transform.rotation.eulerAngles.z) > 1f) {
+			float negOrPosVal = (transform.rotation.eulerAngles.z < 180) ? -1f : 1f;
+			transform.Rotate (0, 0, negOrPosVal * 0.1f);
+		}
+	}
+
 	void HoverPhysics() {
 		RaycastHit hit;
 		for (int i = 0; i < m_hoverPoints.Length; i++) {
@@ -83,7 +94,7 @@ public class CarMetrics : MonoBehaviour {
 				isTouchingGround = true;
 			} else {
 				isTouchingGround = false;
-
+				StabilizeMidAir ();
 				if (transform.position.y > hoverPoint.transform.position.y) {
 					m_body.AddForceAtPosition (hoverPoint.transform.up * hoverForce, hoverPoint.transform.position);
 				} else {

@@ -13,7 +13,7 @@ public class AIHoverCar : CarMetrics {
 	float strafeAxisDirection = 1f;
 	float faceObjectBuffer = 5f;
 	float accelerationModifier;
-	float tooCloseDistance = 9f;
+	float tooCloseSocialDistance = 9f;
 	bool playerIsTooClose;
 	int angerCounter;
 
@@ -265,6 +265,9 @@ public class AIHoverCar : CarMetrics {
 
 	void DetectForWalls () {
 		//ray cast forward, right and left
+
+		//TODO BE ABLE TO DETECT SHORTER DISTANCES FOR TIGHT QUARTERS
+		//BE ABLE TO STRAIGHTEN OUT IN TIGHT QUARTER BY RAYCASTING FORWARD IN MULTIPLE DIRECTIONS
 		RaycastHit hitRight, hitLeft, hitForward;
 		if (Physics.Raycast (transform.position, transform.forward, out hitForward, wallDetectionDistance, m_wallMask)) {
 			isWallInFront = true;
@@ -296,6 +299,7 @@ public class AIHoverCar : CarMetrics {
 		}
 
 		if (isWallOnLeft && isWallOnRight) {
+			Accelerate ();
 
 		} else if (isWallOnLeft || isWallInFront) {
 			SetSteering (true, false);
@@ -320,8 +324,10 @@ public class AIHoverCar : CarMetrics {
 			isSteering = false;
 			SetSteering (false, false);
 		} else {
+			if (!isWallInFront) {
+				Accelerate ();
+			}
 			SetSteering (true, isTurningRight);
-			Accelerate ();
 		}
 	}
 	#endregion
@@ -343,7 +349,7 @@ public class AIHoverCar : CarMetrics {
 	bool isSteering;
 	bool isTurningRight;
 	int randomTurnProbability = 300;
-	private float wallDetectionDistance = 20f, wallDetectionDistanceLateral = 5f;
+	private float wallDetectionDistance = 40f, wallDetectionDistanceLateral = 10f;
 	void Update()
 	{
 		
@@ -360,10 +366,10 @@ public class AIHoverCar : CarMetrics {
 				}
 				break;
 			case AIState.Face:
-				if (isCloseToPlayer && !playerIsTooClose && Vector3.Distance (transform.position, PlayerCar.s_instance.transform.position) < tooCloseDistance) {
+				if (isCloseToPlayer && !playerIsTooClose && Vector3.Distance (transform.position, PlayerCar.s_instance.transform.position) < tooCloseSocialDistance) {
 					PlayerCameTooClose ();
 				}
-				else if (playerIsTooClose && Vector3.Distance (transform.position, PlayerCar.s_instance.transform.position) > tooCloseDistance) {
+				else if (playerIsTooClose && Vector3.Distance (transform.position, PlayerCar.s_instance.transform.position) > tooCloseSocialDistance) {
 					PlayerStoppedBeingTooClose ();
 				}
 				faceTarget = true;
