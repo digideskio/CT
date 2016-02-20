@@ -37,14 +37,14 @@ namespace CustomProfileExample
 				},
 
 				new InputControlMapping {
-					Handle = "Interact",
-					Target = InputControlType.Action3,
+					Handle = "Engage",
+					Target = InputControlType.LeftTrigger,
 					Source = KeyCodeButton(KeyCode.Space)
 				},
 
 				new InputControlMapping {
 					Handle = "Thrust",
-					Target = InputControlType.Action4,
+					Target = InputControlType.RightTrigger,
 					Source = KeyCodeButton(KeyCode.K)				
 				},
 

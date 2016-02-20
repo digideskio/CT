@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour {
 
-	float bulletSpeed = 5f, bulletDamage = 1f;
+	float bulletSpeed = 8f, bulletDamage = 1f, bulletMass = 10000f;
 	[SerializeField] GameObject bulletExplosion;
 	// Use this for initialization
 	void Start () {
@@ -17,8 +17,9 @@ public class Bullet : MonoBehaviour {
 		if (Physics.Raycast (transform.position, transform.forward, out hit, 10f)) {
 			if (hit.collider.gameObject.tag == "Player") {
 				hit.collider.gameObject.GetComponent<PlayerCar> ().TakeDamage (bulletDamage);
-			}
+				hit.collider.gameObject.GetComponent<Rigidbody> ().AddForce (transform.forward * bulletMass);
 
+			}
 			Instantiate (bulletExplosion, hit.point, Quaternion.identity);
 			Destroy (gameObject);
 		}

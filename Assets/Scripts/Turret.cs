@@ -8,7 +8,7 @@ public class Turret : MonoBehaviour {
 	public bool killPlayer, lookAtPlayer;
 	[SerializeField] float LOS = 100f;
 	[SerializeField] Transform exitPoint1, exitPoint2;
-	float timeBetweenEachShot = .1f, shotTimer = 0;
+	float timeBetweenEachShot = .3f, shotTimer = 0;
 	// Use this for initialization
 
 	
@@ -48,7 +48,6 @@ public class Turret : MonoBehaviour {
 	void ShootAtPlayer() {
 		shotTimer += Time.deltaTime;
 		if (shotTimer > timeBetweenEachShot) {
-			print ("SHOOT once");
 
 			Instantiate (bullet, exitPoint1.position, transform.rotation);
 			Instantiate (bullet, exitPoint2.position, transform.rotation);
