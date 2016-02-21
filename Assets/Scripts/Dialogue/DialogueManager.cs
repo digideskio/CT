@@ -20,15 +20,22 @@ public class DialogueManager : InteractableObject
 		currentDialogue = GetComponent<DialogueHolder> ().ReturnCurrentDialogue ();
 		currentDialogueIndex = 0;
 		displayCurrentDialogueElement();
+		GUIManager.s_instance.isInDialogue = true;
+
 	}
 
 	private void displayCurrentDialogueElement() {
-		dialogueText.text = currentDialogue.DialogItems[currentDialogueIndex].characterName + "\n" +
-			"\"" + currentDialogue.DialogItems[currentDialogueIndex].dialogueText +  "\"";
+		dialogueText.text = "\"" + currentDialogue.DialogItems[currentDialogueIndex].dialogueText +  "\"";
+		if (currentDialogue.DialogItems [currentDialogueIndex].characterName == StoryCharacter.You) {
+			print ("COLOR SET");
+			dialogueText.color = new Color (155, 216, 138);
+		} else {
+			dialogueText.color = Color.white;
+		}
 	}
 
 	private void displayNextDialogueElement() {
-		if(currentDialogue.DialogItems.Count > currentDialogueIndex+1	) {
+		if (currentDialogue.DialogItems.Count > currentDialogueIndex + 1) {
 			currentDialogueIndex++;
 			displayCurrentDialogueElement();
 		}
@@ -41,6 +48,7 @@ public class DialogueManager : InteractableObject
 		GetComponent<DialogueHolder> ().m_dialogueIndex++;
 		dialogueText.text = "";
 		print ("EndDialogueSeq");
+		GUIManager.s_instance.isInDialogue = false;
 
 	}
 

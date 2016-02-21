@@ -8,6 +8,7 @@ public class NoteToSelf {
 	public string noteContents;
 	public int numberOfTimesViewed; //used to determine when 
 	public int importance;
+	public bool isInDialogue = false;
 	public string title; //for deletion sake
 	public NoteToSelf(string newNoteContents, int newImportance = 5) {
 		noteContents = newNoteContents;
@@ -24,7 +25,7 @@ public class GUIManager : MonoBehaviour {
 	[SerializeField]
 	Text subtitleText, thoughtText, gameover, timeDisplay, notes, money;
 	public static GUIManager s_instance;
-
+	public bool isInDialogue;
 	public List<NoteToSelf> notesToSelf = new List<NoteToSelf> ();
 
 	bool thoughtTimerSwitch = false;
@@ -83,10 +84,10 @@ public class GUIManager : MonoBehaviour {
 
 		}
 
-		if (subtitleTimer > 0) {
+		if (subtitleTimer > 0 && !isInDialogue) {
 			subtitleText.enabled = true;
 			subtitleTimer -= Time.deltaTime;
-		} else if (subtitleTimer <= 0) {
+		} else if (subtitleTimer <= 0 || isInDialogue) {
 			subtitleText.enabled = false;
 		}
 
