@@ -90,21 +90,27 @@ public class PlayerCar : CarMetrics
 	void Update ()
 	{
 		if (!AIdebug) {
-		
+			//State Machine
+			switch (currMovementState) {
+				case MovementState.OutOfGas :
+					LoseGame ();
+				break;
+			}
+
 			inputDevice = InputManager.ActiveDevice;
 
 			if (currentGas < 0.5f) {
-				
+				RunOutOfGas ();
 			}
-
 			HandleGasLoss ();
+
+			#region Input Handling
+			//Car Movement
 			HandleLeftStickVertical ();
 			HandleLeftStickHorizontal ();
 			HandleRightStickHorizontal ();
 
-
-			//__________________________________________INTERACTION__________________________________________
-
+			//Interaction Functions
 			if (inputDevice.Action1.WasPressed) {
 				PlayerInteractStart ();
 			}
@@ -123,21 +129,12 @@ public class PlayerCar : CarMetrics
 			if (inputDevice.RightTrigger.WasPressed) {
 				AfterburnerBoost ();
 			}
-
-			if (currMovementState == MovementState.OutOfGas) {
-				isMovementDisabled = true;
-				if (!lerpGameOverSwitch) {
-					StartGameOverCameraLerp ();
-				}
-				float timeElapsed = Time.time - gameOverCamLerpTimer;
-				float percentage = timeElapsed / gameOverCamLerpDuration;
-				Camera.main.transform.position = Vector3.Lerp (lerpStartPosition, gameoverCam.position, percentage);
-				Camera.main.transform.LookAt (transform.position);
-			}
+			#endregion
 		}
 
 	}
 
+	#region Input Functions
 	void UnlockFromTarget() {
 		currMovementState = MovementState.Drive;
 		EndTarget ();
@@ -198,7 +195,7 @@ public class PlayerCar : CarMetrics
 		}
 		currStrafe = strafeAxis * strafeAcl;
 	}
-
+	#endregion
 
 	void StartGameOverCameraLerp () {
 		lerpStartPosition = Camera.main.transform.position;
@@ -268,6 +265,17 @@ public class PlayerCar : CarMetrics
 	void RunOutOfGas () {
 		currMovementState = MovementState.OutOfGas;
 		Camera.main.GetComponent<HoverFollowCam> ().enabled = false;
+	}
+
+	void LoseGame() {
+		isMovementDisabled = true;
+		if (!lerpGameOverSwitch) {
+			StartGameOverCameraLerp ();
+		}
+		float timeElapsed = Time.time - gameOverCamLerpTimer;
+		float percentage = timeElapsed / gameOverCamLerpDuration;
+		Camera.main.transform.position = Vector3.Lerp (lerpStartPosition, gameoverCam.position, percentage);
+		Camera.main.transform.LookAt (transform.position);
 	}
 
 	void StealGas() {
