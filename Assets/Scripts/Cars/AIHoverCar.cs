@@ -200,7 +200,7 @@ public class AIHoverCar : CarMetrics {
 	#region OnCollision
 	void OnCollisionEnter(Collision thisCollision) {
 		if (thisCollision.collider.gameObject.tag == "Player") {
-			if (PlayerCar.s_instance.isThrusting) {
+			if (PlayerCar.s_instance.isBoosting) {
 				TakeHitFromThrust(thisCollision.contacts[0].point);
 				TakeDamage(10f);
 			}
