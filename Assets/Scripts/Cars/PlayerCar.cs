@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿   using UnityEngine;
 using System.Collections;
 using System;
 using InControl;
@@ -16,6 +16,7 @@ public class PlayerCar : CarMetrics
 	GameObject debugAICam;
 	public static PlayerCar s_instance;
 
+	float aclAxis = 0;
 	public float forwardAcl = 30000.0f;
 	public float backwardAcl = 15000.0f;
 	public float strafeAcl = 5000.0f;
@@ -57,7 +58,9 @@ public class PlayerCar : CarMetrics
 
 	public enum MovementState {Drive, Target, Submit, OutOfGas};
 	public MovementState currMovementState = MovementState.Drive;
-	public bool isCharged, isThrusting;
+	public bool isCharged, isBoosting;
+
+	InputDevice inputDevice;
 
 
 	#endregion
@@ -87,57 +90,27 @@ public class PlayerCar : CarMetrics
 	void Update ()
 	{
 		if (!AIdebug) {
-		
-			InputDevice inputDevice = InputManager.ActiveDevice;
+			//State Machine
+			switch (currMovementState) {
+				case MovementState.OutOfGas :
+					LoseGame ();
+				break;
+			}
+
+			inputDevice = InputManager.ActiveDevice;
 
 			if (currentGas < 0.5f) {
-				currMovementState = MovementState.OutOfGas;
-				Camera.main.GetComponent<HoverFollowCam> ().enabled = false;
+				RunOutOfGas ();
 			}
-			// Main Thrust
-			currThrust = 0.0f;
-			isAccelerating = false;
-			float aclAxis = 0;
-			if (inputDevice.LeftStickUp != 0) {
-				aclAxis = inputDevice.LeftStickUp;
-				isAccelerating = true;
-			} else if (inputDevice.LeftStickDown != 0) {
-				aclAxis = -inputDevice.LeftStickDown;
-				isAccelerating = true;
-			}
-			if (aclAxis > deadZone)
-				currThrust = aclAxis * forwardAcl;
-			else if (aclAxis < -deadZone)
-				currThrust = aclAxis * backwardAcl;
+			HandleGasLoss ();
 
-			if (isAccelerating) {
-				currentGasLossRate = movingGasLossRate;
-			} else {
-				currentGasLossRate = idleGasLossRate;
-			}
+			#region Input Handling
+			//Car Movement
+			HandleLeftStickVertical ();
+			HandleLeftStickHorizontal ();
+			HandleRightStickHorizontal ();
 
-			currentGas -= currentGasLossRate;
-
-			// Turning
-			float turnAxis = 0.0f;
-			if (inputDevice.RightStickRight != 0) {
-				turnAxis = inputDevice.RightStickRight;
-			} else if (inputDevice.RightStickLeft != 0) {
-				turnAxis = -inputDevice.RightStickLeft;
-			}
-			currTurn = turnAxis;
-		
-			// Strafe
-			float strafeAxis = 0;
-			if (inputDevice.LeftStickLeft != 0) {
-				strafeAxis = -inputDevice.LeftStickLeft;
-			} else if (inputDevice.LeftStickRight != 0) {
-				strafeAxis = inputDevice.LeftStickRight;
-			}
-			currStrafe = strafeAxis * strafeAcl;
-
-			//__________________________________________INTERACTION__________________________________________
-
+			//Interaction Functions
 			if (inputDevice.Action1.WasPressed) {
 				PlayerInteractStart ();
 			}
@@ -147,36 +120,83 @@ public class PlayerCar : CarMetrics
 			}
 
 			if (inputDevice.LeftTrigger.WasPressed) {
-				currMovementState = MovementState.Target;
-				BeginTarget ();
-				isTargeting = true;
-				Camera.main.GetComponent<HoverFollowCam> ().thisCameraMode = HoverFollowCam.CameraMode.targetMode;
+				LockOnToTarget ();
 			}
 			if (inputDevice.LeftTrigger.WasReleased) {
-				currMovementState = MovementState.Drive;
-				EndTarget ();
-				isTargeting = false;
-				Camera.main.GetComponent<HoverFollowCam> ().thisCameraMode = HoverFollowCam.CameraMode.normalMode;
+				UnlockFromTarget ();
 			}
 
 			if (inputDevice.RightTrigger.WasPressed) {
-				Thrust ();
+				AfterburnerBoost ();
 			}
-
-			if (currMovementState == MovementState.OutOfGas) {
-				isMovementDisabled = true;
-				if (!lerpGameOverSwitch) {
-					StartGameOverCameraLerp ();
-				}
-				float timeElapsed = Time.time - gameOverCamLerpTimer;
-				float percentage = timeElapsed / gameOverCamLerpDuration;
-				Camera.main.transform.position = Vector3.Lerp (lerpStartPosition, gameoverCam.position, percentage);
-				Camera.main.transform.LookAt (transform.position);
-			 
-			}
+			#endregion
 		}
 
 	}
+
+	#region Input Functions
+	void UnlockFromTarget() {
+		currMovementState = MovementState.Drive;
+		EndTarget ();
+		isTargeting = false;
+		Camera.main.GetComponent<HoverFollowCam> ().thisCameraMode = HoverFollowCam.CameraMode.normalMode;
+	}
+
+	void LockOnToTarget () {
+		currMovementState = MovementState.Target;
+		BeginTarget ();
+		isTargeting = true;
+		Camera.main.GetComponent<HoverFollowCam> ().thisCameraMode = HoverFollowCam.CameraMode.targetMode;
+	}
+
+	void AfterburnerBoost() {
+		if (!isBoosting) {
+			isBoosting = true;
+			StartCoroutine ("IsBoosting");
+		}
+	}
+
+	void HandleLeftStickVertical () {
+		//Car Acceleration
+		currThrust = 0.0f;
+		isAccelerating = false;
+		aclAxis = 0;
+		if (inputDevice.LeftStickUp != 0) {
+			aclAxis = inputDevice.LeftStickUp;
+			isAccelerating = true;
+		} else if (inputDevice.LeftStickDown != 0) {
+			aclAxis = -inputDevice.LeftStickDown;
+			isAccelerating = true;
+		}
+		if (aclAxis > deadZone)
+			currThrust = aclAxis * forwardAcl;
+		else if (aclAxis < -deadZone)
+			currThrust = aclAxis * backwardAcl;
+	}
+
+	void HandleRightStickHorizontal () {
+		// Turning
+		float turnAxis = 0.0f;
+		if (inputDevice.RightStickRight != 0) {
+			turnAxis = inputDevice.RightStickRight;
+		} else if (inputDevice.RightStickLeft != 0) {
+			turnAxis = -inputDevice.RightStickLeft;
+		}
+		currTurn = turnAxis;
+	}
+
+	void HandleLeftStickHorizontal () {
+		// Strafe
+		float strafeAxis = 0;
+		if (inputDevice.LeftStickLeft != 0) {
+			strafeAxis = -inputDevice.LeftStickLeft;
+		} else if (inputDevice.LeftStickRight != 0) {
+			strafeAxis = inputDevice.LeftStickRight;
+		}
+		currStrafe = strafeAxis * strafeAcl;
+	}
+	#endregion
+
 	void StartGameOverCameraLerp () {
 		lerpStartPosition = Camera.main.transform.position;
 		gameOverCamLerpTimer = Time.time;
@@ -226,21 +246,40 @@ public class PlayerCar : CarMetrics
 		}
 	}
 
-	void Thrust() {
-		if (!isThrusting) {
-			isThrusting = true;
-			StartCoroutine ("IsThrusting");
+	void HandleGasLoss () {
+		if (isAccelerating) {
+			currentGasLossRate = movingGasLossRate;
+		} else {
+			currentGasLossRate = idleGasLossRate;
 		}
+		currentGas -= currentGasLossRate;
 	}
 
-	IEnumerator IsThrusting () {
+	IEnumerator IsBoosting () {
 		m_body.AddForce (transform.forward * thrustForce);
 		GUIManager.s_instance.thrustSlider.value = thrustCoolDown;
 		yield return new WaitForSeconds(thrustCoolDown);
-		isThrusting = false;
+		isBoosting = false;
+	}
+
+	void RunOutOfGas () {
+		currMovementState = MovementState.OutOfGas;
+		Camera.main.GetComponent<HoverFollowCam> ().enabled = false;
+	}
+
+	void LoseGame() {
+		isMovementDisabled = true;
+		if (!lerpGameOverSwitch) {
+			StartGameOverCameraLerp ();
+		}
+		float timeElapsed = Time.time - gameOverCamLerpTimer;
+		float percentage = timeElapsed / gameOverCamLerpDuration;
+		Camera.main.transform.position = Vector3.Lerp (lerpStartPosition, gameoverCam.position, percentage);
+		Camera.main.transform.LookAt (transform.position);
 	}
 
 	void StealGas() {
+		
 	}
 
 	void OnCollisionEnter (Collision thisCollision) {
