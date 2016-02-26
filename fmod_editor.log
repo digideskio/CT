@@ -1,0 +1,64 @@
+[LOG] System::create                           : Header version = 1.07.07. Current version = 1.07.07.
+[LOG] SystemI::init                            : FMOD Studio Version: 00010707 (72710)
+[LOG] SystemI::init                            : maxchannels = 256, flags = 00020000, extradriverdata = 0x0
+[LOG] SystemI::close                           : 
+[LOG] SystemI::close                           : Stop all sounds
+[LOG] SystemI::close                           : Remove miscllaneous DSP stuff.
+[LOG] SystemI::close                           : done.
+
+[LOG] OutputCoreAudio::enumerate               : Enumerating...
+[LOG] OutputCoreAudio::enumerate               : Found output driver: "ATR USB microphone ".
+[LOG] OutputCoreAudio::enumerate               : Found output driver: "Digital-out (HDMI)".
+[LOG] OutputCoreAudio::enumerate               : Found output driver: "Digital-out (HDMI)".
+[LOG] OutputCoreAudio::enumerate               : Found output driver: "Digital-out (HDMI)".
+[LOG] OutputCoreAudio::enumerate               : Found output driver: "Line-out (Green Rear)".
+[LOG] OutputCoreAudio::enumerate               : Found output driver: "Headphones (Green Front)".
+[LOG] OutputCoreAudio::enumerate               : Found output driver: "SPDIF-out (Digital)".
+[LOG] OutputCoreAudio::enumerate               : Found output driver: "SPDIF-out (Grey Rear)".
+[LOG] OutputCoreAudio::enumerate               : Done.
+[LOG] OutputCoreAudio::init                    : Output running 2 channels at 48000Hz sample rate.
+[LOG] OutputCoreAudio::init                    : Maximum hardware read size: 1024 samples, Software buffer size: 512 samples, Number of software buffers: 4.
+[LOG] Thread::initThread                       : Initializing FMOD mixer thread.  priority 3
+[LOG] Thread::initThread                       : - Stacksize 49152.  Stack pointer 0x0 : usesemaphore = 1 : sleeptime = 0
+[LOG] Thread::callback                         : * FMOD mixer thread started
+[LOG] SystemI::init                            : Set up emulated output
+[LOG] SystemI::init                            : create the channel pool
+[LOG] SystemI::init                            : Set up streamer
+[LOG] Thread::initThread                       : Initializing FMOD stream thread.  priority 2
+[LOG] Thread::initThread                       : - Stacksize 65536.  Stack pointer 0x0 : usesemaphore = 0 : sleeptime = 10
+[LOG] Thread::callback                         : * FMOD stream thread started
+[LOG] Thread::initThread                       : Initializing FMOD Studio load thread.  priority 0
+[LOG] Thread::initThread                       : - Stacksize 65536.  Stack pointer 0x0 : usesemaphore = 0 : sleeptime = 1
+[LOG] Thread::callback                         : * FMOD Studio load thread started
+[LOG] Manager::readBank                        : fileversion = 68, compatVersion = 68 (oldest = 44, newest = 68)
+[LOG] Manager::readBank                        : fileversion = 68, compatVersion = 68 (oldest = 44, newest = 68)
+[LOG] SystemI::createSound                     : filename = Assets/Audio/Desktop/Idle.bank : mode 0a010202
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] OutputSoftware::createSample             : lengthpcm 0, lengthbytes 0, channels 0, format 0, freq 0, mode 00000000
+[LOG] Thread::initThread                       : Initializing FMOD nonblocking thread (0).  priority 1
+[LOG] Thread::initThread                       : - Stacksize 81920.  Stack pointer 0x0 : usesemaphore = 1 : sleeptime = 0
+[LOG] Thread::callback                         : * FMOD nonblocking thread (0) started
+[LOG] SystemI::createSound                     : setdata soundi = 0x1307d0468 : node = 0x1307d0b90
+[LOG] SystemI::createSound                     : add node to async list : head = 0x1307d0e20.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x1307d0468
+[LOG] SystemI::createSoundInternal             :     filename = Assets/Audio/Desktop/Idle.bank : mode 0a010202
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 216
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 33504
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 1792
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x1307d0c98
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Format has 1 subsounds.
+[LOG] SystemI::createSoundInternal             :     Create as FMOD_CREATESAMPLE
+[LOG] SystemI::createSoundInternal             :     Multi-sample sound (1 subsounds), create a sample container.
+[LOG] SystemI::createSoundInternal             :     creating subsound 0/1
+[LOG] SystemI::createSample                    :     mode 0a010202 length 120096 samples, lengthbytes 33344
+[LOG] SystemI::createSample                    :     channels = 2
+[LOG] SystemI::createSample                    :     output = 0x138342f08
+[LOG] OutputSoftware::createSample             :     lengthpcm 120096, lengthbytes 33344, channels 2, format 2, freq 48000, mode 0a01020a
+[LOG] SystemI::createSoundInternal             :     done.  OpenState now = FMOD_OPENSTATE_READY.
+
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x1307d0468
+[WRN] SoundSourceInstrumentInstance::startChannelIfReady : Loading delay exceeded, sound may play at incorrect time

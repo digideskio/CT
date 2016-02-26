@@ -114,7 +114,7 @@ public class GUIManager : MonoBehaviour {
 	}
 
 	void EnableInventory () {
-		Time.timeScale = 0;
+		Time.timeScale = 1;
 		isInventoryOn = true;
 		for (int i = 0; i < inventoryPanel.transform.childCount; i++) {
 			inventoryPanel.transform.GetChild (i).gameObject.SetActive(true);
