@@ -1,4 +1,0 @@
-{0b903682-15f7-4f94-9f69-25c5c565fc41} event:/Init_thrust
-{f6958da6-8c07-4f1c-8b38-4b5bab1cf64f} bus:/
-{11863174-f3c5-435b-97ad-474000907cfc} bus:/Reverb
-{893786f1-f16c-4aff-a4a2-cc53f72aceb2} bank:/Master Bank

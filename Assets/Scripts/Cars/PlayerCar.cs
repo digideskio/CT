@@ -4,7 +4,7 @@ using System;
 using InControl;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody), typeof(CarEngineSounds))]
 public class PlayerCar : CarMetrics
 {
 	#region variables
@@ -28,7 +28,7 @@ public class PlayerCar : CarMetrics
 	float currTurn = 0.0f;
 	float currStrafe;
 	public float idleGasLossRate, movingGasLossRate, currentGasLossRate;
-	bool isAccelerating = false;
+	public bool isAccelerating = false;
 	bool isMovementDisabled = false;
 	bool isTargeting;
 	public Transform currentTarget;
@@ -256,6 +256,7 @@ public class PlayerCar : CarMetrics
 	}
 
 	IEnumerator IsBoosting () {
+		GetComponent<CarEngineSounds> ().PlayBoostSound ();
 		m_body.AddForce (transform.forward * thrustForce);
 		GUIManager.s_instance.thrustSlider.value = thrustCoolDown;
 		yield return new WaitForSeconds(thrustCoolDown);
